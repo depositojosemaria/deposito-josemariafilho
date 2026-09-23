@@ -1,0 +1,257 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, getEntry } from 'astro:content';
+import logoRodape from '../../assets/images/logo-rodape-branco.png';
+import { formatarTelefoneExibicao, linkTelefone, linkWhatsApp } from '../../lib/format';
+import Icon from '../ui/Icon.astro';
+
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+
+const unidades = [...(await getCollection('unidades'))].sort((a, b) => a.data.ordem - b.data.ordem);
+const ano = new Date().getFullYear();
+const copyright = site.data.copyright.replace(/© \d{4}/, `© ${ano}`);
+const alturaLogo = 60;
+const larguraLogo = Math.round((logoRodape.width / logoRodape.height) * alturaLogo);
+const whatsappComMensagem = linkWhatsApp(site.data.whatsapp, site.data.mensagemWhatsapp);
+const whatsappSemMensagem = linkWhatsApp(site.data.whatsapp);
+---
+
+<footer class="site-footer">
+	<div class="footer-inner">
+		<div class="footer-grid">
+			<div>
+				<Image
+					class="footer-logo"
+					src={logoRodape}
+					alt="Depósito José Maria Filho"
+					width={larguraLogo}
+					height={alturaLogo}
+					format="webp"
+					quality="mid"
+					loading="lazy"
+				/>
+				<p class="footer-desc">{site.data.textoRodape}</p>
+				<div class="footer-social">
+					<a class="ig" href={site.data.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+						<Icon nome="instagram" tamanho={18} />
+					</a>
+					<a class="fb" href={site.data.facebook} target="_blank" rel="noopener" aria-label="Facebook">
+						<Icon nome="facebook" tamanho={18} />
+					</a>
+					<a class="wa" href={whatsappSemMensagem} target="_blank" rel="noopener" aria-label="WhatsApp">
+						<Icon nome="whatsapp" tamanho={18} />
+					</a>
+				</div>
+			</div>
+
+			<div class="footer-col">
+				<h4>Nossas Unidades</h4>
+				<address>
+					<ul class="footer-links">
+						{
+							unidades.map((unidade) => (
+								<li>
+									<a href={unidade.data.mapsUrl} target="_blank" rel="noopener">
+										<Icon nome="pin" tamanho={14} />
+										Loja {unidade.data.ordem} — {unidade.data.cidade}, {unidade.data.bairro}
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</address>
+			</div>
+
+			<div class="footer-col">
+				<h4>Contato</h4>
+				<address>
+					<ul class="footer-links">
+						{
+							unidades.map(
+								(unidade) =>
+									unidade.data.telefone && (
+										<li>
+											<a href={linkTelefone(unidade.data.telefone)}>
+												<Icon nome="telefone" tamanho={13} />
+												{unidade.data.telefone} — Loja {unidade.data.ordem}
+											</a>
+										</li>
+									),
+							)
+						}
+						<li>
+							<a href={whatsappComMensagem} target="_blank" rel="noopener">
+								<Icon nome="whatsapp" tamanho={13} />
+								{formatarTelefoneExibicao(site.data.whatsapp)} — WhatsApp
+							</a>
+						</li>
+						<li>
+							<a href={`mailto:${site.data.email}`}>
+								<Icon nome="email" tamanho={13} />
+								{site.data.email}
+							</a>
+						</li>
+					</ul>
+				</address>
+			</div>
+		</div>
+
+		<div class="footer-bottom">
+			<p class="footer-copy">{copyright}</p>
+			<a class="footer-privacy" href="/politica-de-privacidade/">Política de Privacidade</a>
+			<p class="footer-aprumo">{site.data.creditos}</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		background: var(--color-ink);
+		color: var(--color-white);
+		padding: var(--spacing-footer-top) 0 var(--spacing-footer-bottom);
+	}
+
+	.footer-inner {
+		max-width: var(--container-page);
+		margin: 0 auto;
+		padding: 0 var(--spacing-container-x);
+	}
+
+	.footer-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--spacing-footer-gap-compact);
+		margin-bottom: 48px;
+	}
+
+	.footer-logo {
+		height: 60px;
+		width: auto;
+		margin-bottom: 16px;
+	}
+
+	.footer-desc {
+		margin-bottom: 20px;
+		color: rgba(255, 255, 255, 0.55);
+		font-size: var(--text-footer-desc);
+		line-height: 1.7;
+	}
+
+	.footer-social {
+		display: flex;
+		gap: 10px;
+	}
+
+	.footer-social a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: var(--radius-circle);
+		background: rgba(255, 255, 255, 0.08);
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.footer-social :global(svg) {
+		fill: var(--color-white);
+	}
+
+	.footer-social a.ig:hover {
+		background: var(--color-instagram);
+	}
+
+	.footer-social a.fb:hover {
+		background: var(--color-facebook);
+	}
+
+	.footer-social a.wa:hover {
+		background: var(--color-whatsapp);
+	}
+
+	.footer-col h4 {
+		margin-bottom: 18px;
+		color: var(--color-brand);
+		font-family: var(--font-display);
+		font-size: var(--text-footer-heading);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--tracking-footer-heading);
+		line-height: var(--leading-heading);
+		text-transform: uppercase;
+	}
+
+	address {
+		font-style: normal;
+	}
+
+	.footer-links {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.footer-links li {
+		margin-bottom: 10px;
+	}
+
+	.footer-links a {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		color: var(--color-unit-subtitle);
+		font-size: var(--text-footer-link);
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.footer-links a:hover {
+		color: var(--color-white);
+	}
+
+	.footer-bottom {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+		padding-top: 24px;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.footer-copy,
+	.footer-privacy,
+	.footer-aprumo {
+		font-size: var(--text-footer-meta);
+	}
+
+	.footer-copy,
+	.footer-privacy {
+		color: rgba(255, 255, 255, 0.35);
+	}
+
+	.footer-privacy {
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.footer-privacy:hover {
+		color: rgba(255, 255, 255, 0.75);
+	}
+
+	.footer-aprumo {
+		color: rgba(255, 255, 255, 0.25);
+	}
+
+	@media (min-width: 801px) {
+		.footer-grid {
+			grid-template-columns: 1.5fr 1fr 1fr;
+			gap: var(--spacing-footer-gap);
+		}
+
+		.footer-bottom {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+	}
+</style>

@@ -1,0 +1,412 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, getEntry } from 'astro:content';
+import logoHeader from '../../assets/images/logo-header-vermelho.png';
+import { navegacao } from '../../data/navegacao';
+import { linkTelefone, linkWhatsApp } from '../../lib/format';
+import Icon from '../ui/Icon.astro';
+
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+
+const unidades = await getCollection('unidades');
+const loja1 = [...unidades].sort((a, b) => a.data.ordem - b.data.ordem)[0];
+const telefoneLoja1 = loja1?.data.telefone;
+
+const alturaLogo = 78;
+const larguraLogo = Math.round((logoHeader.width / logoHeader.height) * alturaLogo);
+const whatsapp = linkWhatsApp(site.data.whatsapp, site.data.mensagemWhatsapp);
+
+function itemAtivo(href: string, pathname: string) {
+	if (href.includes('#')) return false;
+	const normalizar = (caminho: string) => (caminho.endsWith('/') ? caminho : `${caminho}/`);
+	return normalizar(href) === normalizar(pathname);
+}
+---
+
+<header class="site-header">
+	<div class="header-inner">
+		<a class="header-logo" href="/" aria-label={site.data.nome}>
+			<Image
+				src={logoHeader}
+				alt="Depósito José Maria Filho — Materiais para Construção"
+				width={larguraLogo}
+				height={alturaLogo}
+				format="webp"
+				quality="mid"
+				loading="eager"
+			/>
+		</a>
+
+		<nav class="header-nav" aria-label="Menu principal">
+			{
+				navegacao.map((item) => (
+					<a
+						href={item.href}
+						aria-current={itemAtivo(item.href, Astro.url.pathname) ? 'page' : undefined}
+					>
+						{item.rotulo}
+					</a>
+				))
+			}
+		</nav>
+
+		<div class="header-right">
+			<div class="header-social">
+				<a href={site.data.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+					<Icon nome="instagram" tamanho={16} />
+				</a>
+				<a href={site.data.facebook} target="_blank" rel="noopener" aria-label="Facebook">
+					<Icon nome="facebook" tamanho={16} />
+				</a>
+			</div>
+			{
+				telefoneLoja1 && (
+					<a href={linkTelefone(telefoneLoja1)} class="btn-ligar" aria-label="Ligar para Loja 1">
+						<Icon nome="telefone" tamanho={15} />
+						{site.data.ctaLigar}
+					</a>
+				)
+			}
+			<a class="btn-wpp-header" href={whatsapp} target="_blank" rel="noopener">
+				<Icon nome="whatsapp" tamanho={17} />
+				{site.data.ctaWhatsappHeader}
+			</a>
+			<button class="menu-toggle" type="button" popovertarget="menu-mobile" aria-label="Abrir menu">
+				<Icon nome="menu" tamanho={24} />
+			</button>
+		</div>
+	</div>
+
+	<div id="menu-mobile" class="menu-mobile" popover>
+		<button
+			class="menu-fechar"
+			type="button"
+			popovertarget="menu-mobile"
+			popovertargetaction="hide"
+			aria-label="Fechar menu"
+		>
+			<Icon nome="fechar" tamanho={24} />
+		</button>
+		{
+			navegacao.map((item) => (
+				<a
+					href={item.href}
+					aria-current={itemAtivo(item.href, Astro.url.pathname) ? 'page' : undefined}
+				>
+					{item.rotulo}
+				</a>
+			))
+		}
+		<div class="mobile-actions">
+			{
+				telefoneLoja1 && (
+					<a href={linkTelefone(telefoneLoja1)} class="mobile-action mobile-action-call">
+						<Icon nome="telefone" tamanho={17} />
+						{site.data.ctaLigar}
+					</a>
+				)
+			}
+			<a
+				href={site.data.instagram}
+				target="_blank"
+				rel="noopener"
+				class="mobile-action"
+				aria-label="Instagram"
+			>
+				<Icon nome="instagram" tamanho={17} />
+				Instagram
+			</a>
+			<a
+				href={site.data.facebook}
+				target="_blank"
+				rel="noopener"
+				class="mobile-action"
+				aria-label="Facebook"
+			>
+				<Icon nome="facebook" tamanho={17} />
+				Facebook
+			</a>
+		</div>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 1000;
+		background: var(--color-white);
+		box-shadow: var(--shadow-header);
+	}
+
+	.header-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		max-width: var(--container-page);
+		margin: 0 auto;
+		padding: var(--spacing-header-y-compact) var(--spacing-header-x-compact);
+	}
+
+	.header-logo {
+		display: flex;
+		flex-shrink: 0;
+		line-height: 0;
+	}
+
+	.header-logo :global(img) {
+		height: 58px;
+		width: auto;
+	}
+
+	.header-nav {
+		display: none;
+	}
+
+	.header-social {
+		display: none;
+	}
+
+	.header-right {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.header-social a,
+	.menu-toggle,
+	.menu-fechar {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 44px;
+		min-height: 44px;
+		color: var(--color-ink);
+	}
+
+	.header-social a {
+		width: 34px;
+		height: 34px;
+		min-width: 34px;
+		min-height: 34px;
+		border-radius: var(--radius-circle);
+		background: var(--color-surface);
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.header-social a:hover {
+		background: var(--color-brand);
+		color: var(--color-white);
+	}
+
+	.btn-ligar,
+	.btn-wpp-header {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		padding: 8px 10px;
+		border-radius: var(--radius-pill);
+		font-weight: var(--font-weight-bold);
+		font-size: var(--text-header-cta-compact);
+		white-space: nowrap;
+		text-decoration: none;
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.btn-ligar :global(svg),
+	.btn-wpp-header :global(svg) {
+		width: 14px;
+		height: 14px;
+	}
+
+	.btn-ligar {
+		color: var(--color-brand);
+		border: 2px solid var(--color-brand);
+	}
+
+	.btn-ligar:hover {
+		background: var(--color-brand);
+		color: var(--color-white);
+	}
+
+	.btn-wpp-header {
+		padding-inline: 10px;
+		background: var(--color-whatsapp);
+		color: var(--color-white);
+	}
+
+	.btn-wpp-header:hover {
+		background: var(--color-whatsapp-dark);
+	}
+
+	.menu-toggle,
+	.menu-fechar {
+		padding: 8px;
+		border: 0;
+		background: none;
+		cursor: pointer;
+	}
+
+	.menu-mobile {
+		position: fixed;
+		inset: unset;
+		top: calc(58px + (var(--spacing-header-y-compact) * 2));
+		right: 0;
+		left: 0;
+		width: auto;
+		height: fit-content;
+		max-height: calc(100dvh - (58px + (var(--spacing-header-y-compact) * 2)));
+		margin: 0;
+		padding: 16px;
+		overflow: auto;
+		border: 0;
+		background: var(--color-white);
+		color: var(--color-ink);
+		box-shadow: var(--shadow-mobile-nav);
+	}
+
+	.menu-mobile:popover-open {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.menu-fechar {
+		align-self: flex-end;
+	}
+
+	.menu-mobile > a {
+		display: flex;
+		align-items: center;
+		min-height: 44px;
+		padding: 12px 16px;
+		border-bottom: 1px solid var(--color-surface);
+		border-radius: var(--radius-control);
+		font-weight: var(--font-weight-bold);
+		font-size: var(--text-nav-mobile);
+	}
+
+	.header-nav a[aria-current='page'],
+	.menu-mobile > a[aria-current='page'] {
+		color: var(--color-brand);
+	}
+
+	.mobile-actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px;
+		padding: 12px 0 4px;
+	}
+
+	.mobile-action {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 7px;
+		min-height: 44px;
+		padding: 12px 10px;
+		border: 1px solid var(--color-line);
+		border-radius: var(--radius-chip);
+		background: var(--color-surface);
+		color: var(--color-ink);
+		font-size: var(--text-nav-mobile-action);
+	}
+
+	.mobile-action-call {
+		grid-column: 1 / -1;
+		border-color: var(--color-brand);
+		background: var(--color-white);
+		color: var(--color-brand);
+	}
+
+	.mobile-action :global(svg) {
+		flex-shrink: 0;
+	}
+
+	@media (min-width: 601px) {
+		.header-inner {
+			gap: 12px;
+			padding: var(--spacing-header-y) var(--spacing-container-x);
+		}
+
+		.header-logo :global(img) {
+			height: 78px;
+		}
+
+		.header-right {
+			gap: 8px;
+		}
+
+		.btn-ligar,
+		.btn-wpp-header {
+			gap: 6px;
+			font-size: var(--text-header-cta);
+		}
+
+		.btn-ligar {
+			padding: 9px 16px;
+		}
+
+		.btn-wpp-header {
+			padding: 9px 18px;
+		}
+
+		.btn-ligar :global(svg) {
+			width: 15px;
+			height: 15px;
+		}
+
+		.btn-wpp-header :global(svg) {
+			width: 17px;
+			height: 17px;
+		}
+
+		.menu-mobile {
+			top: calc(78px + (var(--spacing-header-y) * 2));
+			max-height: calc(100dvh - (78px + (var(--spacing-header-y) * 2)));
+		}
+	}
+
+	@media (min-width: 981px) {
+		.header-nav {
+			display: flex;
+			flex: 1;
+			align-items: center;
+			justify-content: center;
+			gap: 2px;
+		}
+
+		.header-nav a {
+			padding: 8px 13px;
+			border-radius: var(--radius-control);
+			font-weight: var(--font-weight-bold);
+			font-size: var(--text-nav);
+			white-space: nowrap;
+			transition: all var(--default-transition-duration) var(--ease-brand);
+		}
+
+		.header-nav a:hover {
+			background: var(--color-surface);
+			color: var(--color-brand);
+		}
+
+		.header-social {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.menu-toggle {
+			display: none;
+		}
+
+		.menu-mobile,
+		.menu-mobile:popover-open {
+			display: none;
+		}
+	}
+</style>

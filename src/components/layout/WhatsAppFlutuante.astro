@@ -1,0 +1,56 @@
+---
+import { getEntry } from 'astro:content';
+import { linkWhatsApp } from '../../lib/format';
+import Icon from '../ui/Icon.astro';
+
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+
+const whatsapp = linkWhatsApp(site.data.whatsapp, site.data.mensagemWhatsapp);
+---
+
+<a class="float-wpp" href={whatsapp} target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+	<Icon nome="whatsapp" tamanho={32} />
+</a>
+
+<style>
+	.float-wpp {
+		position: fixed;
+		right: var(--spacing-float);
+		bottom: var(--spacing-float);
+		z-index: 9999;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 62px;
+		height: 62px;
+		border-radius: var(--radius-circle);
+		background: var(--color-whatsapp);
+		color: var(--color-white);
+		box-shadow: var(--shadow-float);
+		transition: all var(--default-transition-duration) var(--ease-brand);
+		animation: pulse-wpp 2.5s infinite;
+	}
+
+	.float-wpp:hover {
+		background: var(--color-whatsapp-dark);
+		transform: scale(1.08);
+	}
+
+	.float-wpp :global(svg) {
+		fill: var(--color-white);
+	}
+
+	@keyframes pulse-wpp {
+		0%,
+		100% {
+			box-shadow: var(--shadow-float);
+		}
+
+		50% {
+			box-shadow: var(--shadow-float-pulse);
+		}
+	}
+</style>
