@@ -1,6 +1,7 @@
 import { getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import logoHeader from '../assets/images/logo-header-vermelho.png';
+import { formatarTelefoneSchema } from './format';
 
 const SITE = 'https://depositojosemariafilho.com.br';
 const ORGANIZACAO_ID = `${SITE}/#organizacao`;
@@ -64,7 +65,10 @@ export function websiteSchema(site: CollectionEntry<'site'>): JsonLdNode {
 	};
 }
 
-export async function lojaSchema(unidade: CollectionEntry<'unidades'>): Promise<JsonLdNode> {
+export async function lojaSchema(
+	site: CollectionEntry<'site'>,
+	unidade: CollectionEntry<'unidades'>,
+): Promise<JsonLdNode> {
 	const imagem = await getImage({
 		src: unidade.data.imagem,
 		format: 'webp',
@@ -75,14 +79,15 @@ export async function lojaSchema(unidade: CollectionEntry<'unidades'>): Promise<
 		'@context': 'https://schema.org',
 		'@type': 'HardwareStore',
 		'@id': `${SITE}/unidades/${unidade.id}/#loja`,
-		name: unidade.data.nome,
+		name: `${site.data.nome} — ${unidade.data.cidade} (${unidade.data.bairro})`,
+		url: `${SITE}/unidades/${unidade.id}/`,
 		image: urlAbsoluta(imagem.src),
 		address: endereco(unidade.data),
 		hasMap: unidade.data.mapsUrl,
 		parentOrganization: { '@id': ORGANIZACAO_ID },
 	};
 
-	if (unidade.data.telefone) loja.telephone = unidade.data.telefone;
+	if (unidade.data.telefone) loja.telephone = formatarTelefoneSchema(unidade.data.telefone);
 
 	if (unidade.data.latitude !== undefined && unidade.data.longitude !== undefined) {
 		loja.geo = {

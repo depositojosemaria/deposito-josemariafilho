@@ -12,7 +12,7 @@ const unidades = await getCollection('unidades');
 const lojas = await Promise.all(
 	[...unidades]
 		.sort((a, b) => a.data.ordem - b.data.ordem)
-		.map((unidade) => lojaSchema(unidade)),
+		.map((unidade) => lojaSchema(site, unidade)),
 );
 
 const jsonLd = [await organizationSchema(site), websiteSchema(site), ...lojas];

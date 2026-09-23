@@ -11,6 +11,8 @@ O que não está em `docs/REFERENCIA.md` não foi inventado. Os JSON em `src/con
 - **4ª loja citada no Instagram.** `docs/REFERENCIA.md` registra que o HTML, o hero e as meta tags falam em 3 unidades e que não há uma quarta unidade na página salva. Não há nome, endereço nem telefone dessa loja no documento. Nenhuma unidade extra foi criada.
 - **CEPs.** Ausentes. O campo `cep` não foi preenchido.
 - **Coordenadas.** Ausentes. `latitude` e `longitude` não foram preenchidas.
+- Obter no Google Business Profile o link de Maps com CID de cada loja para substituir os links share.google em mapsUrl.
+- Confirmar se o nome de cada loja no Google Business Profile bate com o name do schema.
 - **Complemento.** Nenhuma unidade traz complemento no card.
 - **Cidade na arte do banner 2.** Loja 2 e Loja 3 aparecem sem “Suzano” na linha de bairro. No card, as duas estão em Suzano. O JSON segue o card.
 - **Rótulos “Loja 01”, “Loja 02” e “Loja 03”.** Existem no card e não têm campo próprio. O `nome` gravado é o do card (`Poá — Jd. São José`, e os equivalentes).
