@@ -1,0 +1,12 @@
+---
+import type { JsonLdNode } from '../../lib/schema';
+
+interface Props {
+	data: JsonLdNode | JsonLdNode[];
+}
+
+const { data } = Astro.props;
+const json = JSON.stringify(data).replaceAll('<', '\\u003c');
+---
+
+<script type="application/ld+json" set:html={json} />

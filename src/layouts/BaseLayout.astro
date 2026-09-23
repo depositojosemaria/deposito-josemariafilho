@@ -1,0 +1,47 @@
+---
+import type { ImageMetadata } from 'astro';
+import montserrat900Latin from '@fontsource/montserrat/files/montserrat-latin-900-normal.woff2?url';
+import '../styles/global.css';
+import Seo from '../components/seo/Seo.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import type { JsonLdNode } from '../lib/schema';
+
+interface Props {
+	title: string;
+	description: string;
+	canonical?: string;
+	ogImage?: ImageMetadata;
+	ogImageAlt?: string;
+	ogType?: string;
+	noindex?: boolean;
+	jsonLd?: JsonLdNode | JsonLdNode[];
+}
+
+const { jsonLd, ...seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="theme-color" content="#cc0000" />
+		<link
+			rel="preload"
+			href={montserrat900Latin}
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
+		/>
+		<Seo {...seo} />
+		{jsonLd && <JsonLd data={jsonLd} />}
+	</head>
+	<body>
+		<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+		<slot name="header" />
+		<main id="conteudo">
+			<slot />
+		</main>
+		<slot name="footer" />
+	</body>
+</html>
