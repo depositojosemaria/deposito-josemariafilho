@@ -1,0 +1,581 @@
+@import "@fontsource/montserrat/latin-700.css";
+@import "@fontsource/montserrat/latin-800.css";
+@import "@fontsource/montserrat/latin-900.css";
+@import "@fontsource/open-sans/latin-400.css";
+@import "@fontsource/open-sans/latin-600.css";
+@import "@fontsource/open-sans/latin-700.css";
+@import "tailwindcss";
+
+/*
+  Pesos importados (estáticos, só os usados no CSS original):
+  - Montserrat 700: botões .btn, menu, títulos de card, botão de avaliações
+  - Montserrat 800: .section-title, .unidade-nome, .btn-submit, h3 do placeholder de banner
+  - Montserrat 900: .hero h1, .diferencial-num
+  - Open Sans 400: body
+  - Open Sans 600: .hero-badge, .diferencial-label, label do formulário
+  - Open Sans 700: .header-nav a, .footer-links e rótulos que herdam Open Sans com font-weight 700
+  Open Sans 500 veio no arquivo original e não é usado em nenhuma regra.
+*/
+
+@theme {
+  /* ---------- Cores (hex do :root e das regras) ---------- */
+
+  /* --red. .text-red, header do card de produto, borda dos diferenciais, .diferencial-num, bolinha da lista, hover do menu e das redes, .btn-ligar, “Ver no Maps”, .unidade-num, h4 do rodapé, Instagram oculto, setas de ofertas no hover, fechar do lightbox. Avatar de Ronaldo Marinho Cabral. */
+  --color-brand: #cc0000;
+
+  /* --red-dark. Declarada no :root e não usada em nenhuma regra. */
+  --color-brand-dark: #a30000;
+
+  /* --green. .btn-whatsapp, .btn-wpp-header, .btn-wpp-unidade, .float-wpp e hover .wa do rodapé. */
+  --color-whatsapp: #25d366;
+
+  /* --green-dark. Hover dos botões WhatsApp. */
+  --color-whatsapp-dark: #128c7e;
+
+  /* --dark. Texto do body, fundo do .hero, .unidades e footer, hover do .btn-submit. Título do placeholder do Instagram. */
+  --color-ink: #111111;
+
+  /* --gray. .section-subtitle, .produto-items, .diferencial-label, .ofertas-counter, texto do placeholder do Instagram. */
+  --color-muted: #6b7280;
+
+  /* --light. Fundo de .diferenciais e .depoimentos, ícones sociais do header, .parceiro-item, .oferta-empty, atalhos do menu mobile. */
+  --color-surface: #f4f4f4;
+
+  /* --white. Fundo da página, cards, header, .btn-submit, texto sobre vermelho e verde. */
+  --color-white: #ffffff;
+
+  /* .hero h1 span (“obra”) e o span “Contato” do título da seção .contato. */
+  --color-gold: #ffd700;
+
+  /* Fundo de .banner-section. */
+  --color-banner: #000000;
+
+  /* Fim do degradê do .banner-placeholder (#CC0000 → #770000). */
+  --color-banner-deep: #770000;
+
+  /* Borda de .produto-card e .depoimento-card. */
+  --color-card-border: #ebebeb;
+
+  /* Fundo de .unidade-card. */
+  --color-unit: #1e1e1e;
+
+  /* Borda de .unidade-card. */
+  --color-unit-border: #2a2a2a;
+
+  /* Borda de .mobile-action e de .oferta-nav-btn. */
+  --color-line: #e5e7eb;
+
+  /* Fundo de .produto-badge (“Mais de 150 modelos”). */
+  --color-badge: #fff3cd;
+
+  /* Texto de .produto-badge. */
+  --color-badge-ink: #856404;
+
+  /* .depoimento-texto. */
+  --color-review: #444444;
+
+  /* .depoimento-stars e o amarelo do logo do Google. */
+  --color-star: #fbbc05;
+
+  /* Azul do logo do Google nos depoimentos. */
+  --color-google-blue: #4285f4;
+
+  /* Verde do logo do Google nos depoimentos. */
+  --color-google-green: #34a853;
+
+  /* Vermelho do logo do Google nos depoimentos. */
+  --color-google-red: #ea4335;
+
+  /* Borda de .btn-ver-avaliacoes. */
+  --color-review-button-border: #dddddd;
+
+  /* Hover de .footer-social a.ig. */
+  --color-instagram: #e1306c;
+
+  /* Hover de .footer-social a.fb. */
+  --color-facebook: #1877f2;
+
+  /* Fundo de .instagram-section (seção oculta). */
+  --color-instagram-surface: #fafafa;
+
+  /* Fundo de .ofertas. */
+  --color-offers: #fff8f8;
+
+  /* Borda tracejada do placeholder do feed do Instagram. */
+  --color-dashed: #e0e0e0;
+
+  /* Avatar de Ronaldo Marinho Cabral (mesmo hex de --red). */
+  --color-avatar-ronaldo: #cc0000;
+
+  /* Avatar de Jurisbalino Da Silva. */
+  --color-avatar-jurisbalino: #1565c0;
+
+  /* Avatar de Fabio Mendes. */
+  --color-avatar-fabio: #2e7d32;
+
+  /* Avatar de Hélio Venegeroles. */
+  --color-avatar-helio: #6a1b9a;
+
+  /* Avatar de Jonatas Abrao. */
+  --color-avatar-jonatas: #e65100;
+
+  /* Overlay do hero, início do degradê linear-gradient(135deg, …). */
+  --color-hero-overlay-start: rgba(180, 0, 0, 0.85);
+
+  /* Overlay do hero, fim do degradê. */
+  --color-hero-overlay-end: rgba(0, 0, 0, 0.70);
+
+  /* Fundo de .hero-badge. */
+  --color-hero-badge: rgba(255, 255, 255, 0.15);
+
+  /* Borda de .hero-badge. */
+  --color-hero-badge-border: rgba(255, 255, 255, 0.3);
+
+  /* .unidades .section-subtitle. */
+  --color-unit-subtitle: rgba(255, 255, 255, 0.6);
+
+  /* .unidade-endereco. */
+  --color-unit-address: rgba(255, 255, 255, 0.65);
+
+  /* .unidade-tel. */
+  --color-unit-phone: rgba(255, 255, 255, 0.8);
+
+  /* .unidade-maps-link. */
+  --color-maps: rgba(204, 0, 0, 0.85);
+
+  /* .unidade-rota-link. */
+  --color-route: rgba(255, 255, 255, 0.07);
+
+  /* Fundo de .lightbox. */
+  --color-lightbox: rgba(0, 0, 0, 0.93);
+
+  /* ---------- Fontes ---------- */
+
+  /* body, parágrafos e campos do formulário: Open Sans. */
+  --font-sans: "Open Sans", sans-serif;
+
+  /* h1, h2, h3, h4, botões, .section-title, .unidade-nome, avatares: Montserrat. */
+  --font-display: "Montserrat", sans-serif;
+
+  /* body. Open Sans 400. */
+  --font-weight-body: 400;
+
+  /* .hero-badge, .diferencial-label, label do formulário. Open Sans 600. */
+  --font-weight-label: 600;
+
+  /* Menu, .btn, nomes de depoimento, 4º card de diferenciais. 700. */
+  --font-weight-bold: 700;
+
+  /* .section-title, .unidade-nome, .btn-submit, h3 do placeholder de banner. Montserrat 800. */
+  --font-weight-extrabold: 800;
+
+  /* .hero h1 e .diferencial-num. Montserrat 900. */
+  --font-weight-black: 900;
+
+  /* body. */
+  --leading-body: 1.6;
+
+  /* h1, h2, h3, h4. */
+  --leading-heading: 1.2;
+
+  /* .hero h1. */
+  --leading-hero: 1.1;
+
+  /* .hero-badge, letter-spacing: 0.5px. */
+  --tracking-hero-badge: 0.5px;
+
+  /* .unidade-num, letter-spacing: 2px. */
+  --tracking-unit-label: 2px;
+
+  /* .footer-col h4, letter-spacing: 1px. */
+  --tracking-footer-heading: 1px;
+
+  /* .depoimento-stars, letter-spacing: 2px. */
+  --tracking-stars: 2px;
+
+  /* ---------- Tamanhos de fonte ---------- */
+
+  /* .section-title */
+  --text-section-title: clamp(1.6rem, 4vw, 2.2rem);
+  --text-section-title--line-height: 1.2;
+
+  /* .section-subtitle */
+  --text-section-subtitle: 1.05rem;
+
+  /* .btn */
+  --text-btn: 1rem;
+
+  /* .header-nav a */
+  --text-nav: 0.92rem;
+
+  /* .btn-ligar e .btn-wpp-header */
+  --text-header-cta: 0.85rem;
+
+  /* .btn-ligar e .btn-wpp-header abaixo de 600px */
+  --text-header-cta-compact: 0.78rem;
+
+  /* .mobile-nav a */
+  --text-nav-mobile: 1rem;
+
+  /* .mobile-action */
+  --text-nav-mobile-action: 0.9rem;
+
+  /* .hero-badge */
+  --text-hero-badge: 0.85rem;
+
+  /* .hero h1 */
+  --text-hero: clamp(2rem, 5.5vw, 3.4rem);
+  --text-hero--line-height: 1.1;
+
+  /* .hero p */
+  --text-hero-copy: clamp(1rem, 2.5vw, 1.2rem);
+
+  /* .hero-ctas .btn-whatsapp */
+  --text-hero-cta: 1.05rem;
+
+  /* .hero-phone */
+  --text-hero-phone: 0.95rem;
+
+  /* .banner-placeholder h3 */
+  --text-banner-title: 1.4rem;
+
+  /* .banner-placeholder p */
+  --text-banner-copy: 0.9rem;
+
+  /* .diferencial-icon */
+  --text-differential-icon: 2.2rem;
+
+  /* .diferencial-num */
+  --text-differential-number: 1.9rem;
+
+  /* .diferencial-label */
+  --text-differential-label: 0.88rem;
+
+  /* 4º .diferencial-label, font-size inline */
+  --text-differential-label-strong: 1rem;
+
+  /* .produto-titulo */
+  --text-product-title: 1rem;
+
+  /* .produto-titulo abaixo de 500px */
+  --text-product-title-compact: 0.82rem;
+
+  /* .produto-items */
+  --text-product-item: 0.85rem;
+
+  /* .produto-items abaixo de 500px */
+  --text-product-item-compact: 0.74rem;
+
+  /* .produto-badge */
+  --text-product-badge: 0.75rem;
+
+  /* .produto-badge abaixo de 500px */
+  --text-product-badge-compact: 0.68rem;
+
+  /* .unidade-maps-link e .unidade-rota-link */
+  --text-unit-action: 0.76rem;
+
+  /* .unidade-num */
+  --text-unit-kicker: 0.7rem;
+
+  /* .unidade-nome */
+  --text-unit-name: 1.05rem;
+
+  /* .unidade-endereco */
+  --text-unit-address: 0.86rem;
+
+  /* .unidade-tel */
+  --text-unit-phone: 0.9rem;
+
+  /* .btn-wpp-unidade */
+  --text-unit-whatsapp: 0.88rem;
+
+  /* .instagram-follow */
+  --text-instagram-follow: 0.9rem;
+
+  /* h3 do placeholder do Instagram */
+  --text-instagram-feed-title: 1.15rem;
+
+  /* parágrafo do placeholder do Instagram */
+  --text-instagram-feed-copy: 0.9rem;
+
+  /* .contato-info h3 */
+  --text-contact-title: 1.5rem;
+
+  /* CTA WhatsApp do contato, font-size inline */
+  --text-contact-cta: 1.1rem;
+
+  /* .form-group label */
+  --text-form-label: 0.85rem;
+
+  /* input e textarea do formulário */
+  --text-form-field: 0.95rem;
+
+  /* .btn-submit */
+  --text-form-submit: 1rem;
+
+  /* .form-success h4 */
+  --text-form-success: 1.3rem;
+
+  /* .depoimento-nome */
+  --text-review-name: 0.92rem;
+
+  /* .depoimento-data */
+  --text-review-date: 0.78rem;
+
+  /* .depoimento-stars */
+  --text-review-stars: 1.1rem;
+
+  /* .depoimento-texto */
+  --text-review-body: 0.88rem;
+
+  /* .depoimento-avatar */
+  --text-review-avatar: 1.1rem;
+
+  /* .btn-ver-avaliacoes */
+  --text-reviews-button: 0.9rem;
+
+  /* .footer-desc */
+  --text-footer-desc: 0.88rem;
+
+  /* .footer-col h4 */
+  --text-footer-heading: 0.9rem;
+
+  /* .footer-links a */
+  --text-footer-link: 0.88rem;
+
+  /* .footer-copy, .footer-privacy e .footer-aprumo */
+  --text-footer-meta: 0.8rem;
+
+  /* .ofertas-counter */
+  --text-offers-counter: 0.85rem;
+
+  /* .ofertas-cta .btn-whatsapp abaixo de 900px */
+  --text-offers-cta-compact: 0.92rem;
+
+  /* .lightbox-counter */
+  --text-lightbox-counter: 0.88rem;
+
+  /* .lightbox-close */
+  --text-lightbox-close: 1.6rem;
+
+  /* ---------- Espaçamentos ---------- */
+
+  /* .section, padding vertical */
+  --spacing-section: 80px;
+
+  /* .container e header, padding horizontal */
+  --spacing-container-x: 20px;
+
+  /* .header-inner, padding vertical */
+  --spacing-header-y: 10px;
+
+  /* .header-inner abaixo de 600px */
+  --spacing-header-y-compact: 8px;
+
+  /* .header-inner abaixo de 600px, padding horizontal */
+  --spacing-header-x-compact: 10px;
+
+  /* .section-title, margin-bottom */
+  --spacing-title: 12px;
+
+  /* .section-subtitle, margin-bottom */
+  --spacing-subtitle: 48px;
+
+  /* .diferenciais-grid, gap */
+  --spacing-differentials-gap: 24px;
+
+  /* .diferenciais, padding vertical */
+  --spacing-differentials: 60px;
+
+  /* .diferencial-card, padding vertical */
+  --spacing-differential-card-y: 28px;
+
+  /* .diferencial-card, padding horizontal */
+  --spacing-differential-card-x: 20px;
+
+  /* .produtos-grid, gap */
+  --spacing-products-gap: 20px;
+
+  /* .produtos-grid abaixo de 500px, gap */
+  --spacing-products-gap-compact: 12px;
+
+  /* .produto-header, padding 28px 16px 20px */
+  --spacing-product-header-top: 28px;
+  --spacing-product-header-x: 16px;
+  --spacing-product-header-bottom: 20px;
+
+  /* .produto-body, padding 16px 20px */
+  --spacing-product-body-y: 16px;
+  --spacing-product-body-x: 20px;
+
+  /* .unidades-grid, gap */
+  --spacing-units-gap: 24px;
+
+  /* .unidade-info, padding 18px 20px 20px */
+  --spacing-unit-info-top: 18px;
+  --spacing-unit-info-x: 20px;
+  --spacing-unit-info-bottom: 20px;
+
+  /* .parceiros, padding vertical */
+  --spacing-partners: 70px;
+
+  /* .parceiro-item, padding 14px 22px */
+  --spacing-partner-y: 14px;
+  --spacing-partner-x: 22px;
+
+  /* .parceiros-track, gap */
+  --spacing-partners-gap: 16px;
+
+  /* .depoimento-card, padding */
+  --spacing-review-card: 24px;
+
+  /* .depoimentos-track, gap */
+  --spacing-reviews-gap: 20px;
+
+  /* Botão de avaliações, margin-top */
+  --spacing-reviews-button: 40px;
+
+  /* .contato-inner, gap */
+  --spacing-contact-gap: 60px;
+
+  /* .contato-inner abaixo de 800px, gap */
+  --spacing-contact-gap-compact: 40px;
+
+  /* .form-group, margin-bottom */
+  --spacing-form-group: 16px;
+
+  /* footer, padding 60px 0 30px */
+  --spacing-footer-top: 60px;
+  --spacing-footer-bottom: 30px;
+
+  /* .footer-grid, gap */
+  --spacing-footer-gap: 40px;
+
+  /* .footer-grid abaixo de 800px, gap */
+  --spacing-footer-gap-compact: 32px;
+
+  /* .float-wpp, bottom e right */
+  --spacing-float: 28px;
+
+  /* .btn, padding 14px 28px */
+  --spacing-btn-y: 14px;
+  --spacing-btn-x: 28px;
+
+  /* .hero-ctas .btn-whatsapp, padding 16px 32px */
+  --spacing-hero-btn-y: 16px;
+  --spacing-hero-btn-x: 32px;
+
+  /* .fade-in, translateY(28px) */
+  --spacing-fade: 28px;
+
+  /* ---------- Raios ---------- */
+
+  /* --radius. Cards, viewport de ofertas, .form-success, placeholder do Instagram. */
+  --radius-card: 12px;
+
+  /* Botões em pílula, .hero-badge, .produto-badge, .lightbox-counter. */
+  --radius-pill: 50px;
+
+  /* .produto-icon */
+  --radius-product-icon: 16px;
+
+  /* .produto-icon abaixo de 500px */
+  --radius-product-icon-compact: 12px;
+
+  /* .parceiro-item e .mobile-action */
+  --radius-chip: 10px;
+
+  /* Links do menu, .btn-wpp-unidade, campos do formulário. */
+  --radius-control: 8px;
+
+  /* code dos placeholders e .lightbox-img */
+  --radius-code: 4px;
+
+  /* Ícones sociais, setas, avatar, .float-wpp, .banner-dot. */
+  --radius-circle: 50%;
+
+  /* ---------- Sombras ---------- */
+
+  /* --shadow. Cards, .ofertas-viewport, .oferta-nav-btn, hover de .parceiro-item. */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.10);
+
+  /* header */
+  --shadow-header: 0 2px 16px rgba(0, 0, 0, 0.10);
+
+  /* .mobile-nav aberto */
+  --shadow-mobile-nav: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* .produto-card:hover */
+  --shadow-product-hover: 0 12px 32px rgba(0, 0, 0, 0.14);
+
+  /* .depoimento-card:hover */
+  --shadow-review-hover: 0 12px 28px rgba(0, 0, 0, 0.12);
+
+  /* .contato-info .btn-whatsapp */
+  --shadow-contact-cta: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+  /* .float-wpp */
+  --shadow-float: 0 4px 20px rgba(37, 211, 102, 0.5);
+
+  /* @keyframes pulse-wpp, no meio da animação */
+  --shadow-float-pulse: 0 4px 32px rgba(37, 211, 102, 0.9);
+
+  /* --transition: all 0.3s ease */
+  --ease-brand: ease;
+  --default-transition-duration: 0.3s;
+
+  /* ---------- Container e medidas ---------- */
+
+  /* .container e .header-inner, max-width */
+  --container-page: 1200px;
+
+  /* .hero-content, max-width */
+  --container-hero: 720px;
+
+  /* .hero p, max-width */
+  --container-hero-copy: 540px;
+
+  /* .unidades-grid em uma coluna, max-width */
+  --container-units: 480px;
+
+  /* .depoimento-card, min-width */
+  --width-review-min: 300px;
+
+  /* .depoimento-card, max-width */
+  --width-review-max: 340px;
+
+  /* Comentário do carrossel: banner desktop 1200 × 450 px */
+  --width-banner: 1200px;
+  --height-banner: 450px;
+
+  /* Comentário do carrossel: banner mobile opcional 800 × 400 px */
+  --width-banner-mobile: 800px;
+  --height-banner-mobile: 400px;
+
+  /* .hero, min-height */
+  --height-hero: 85vh;
+
+  /* .hero-bg, opacity da foto */
+  --opacity-hero-photo: 0.35;
+
+  /* ---------- Breakpoints (as queries originais são max-width; use a variante max-*) ---------- */
+
+  /* max-width: 980px. Esconde o menu desktop e mostra o hambúrguer. */
+  --breakpoint-nav: 980px;
+
+  /* max-width: 900px. Produtos em 2 colunas, unidades em 1 coluna, ofertas com 2 slides. */
+  --breakpoint-grid: 900px;
+
+  /* max-width: 800px. Contato e rodapé em uma coluna. */
+  --breakpoint-stack: 800px;
+
+  /* max-width: 768px. Diferenciais em 2 colunas; setas do banner somem. */
+  --breakpoint-banner: 768px;
+
+  /* max-width: 600px. Header compacto e setas do lightbox menores. */
+  --breakpoint-header: 600px;
+
+  /* max-width: 500px. Cards de produto mais compactos. */
+  --breakpoint-products: 500px;
+}
