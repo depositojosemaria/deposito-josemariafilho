@@ -1,0 +1,98 @@
+[
+	{
+		"id": "coral",
+		"nome": "Coral",
+		"logo": "../assets/images/logo-coral.png",
+		"ordem": 1
+	},
+	{
+		"id": "brasilit",
+		"nome": "Brasilit",
+		"logo": "../assets/images/logo-brasilit.png",
+		"ordem": 2
+	},
+	{
+		"id": "votorantim-cimentos",
+		"nome": "Votorantim Cimentos",
+		"logo": "../assets/images/logo-votorantim-cimentos.png",
+		"ordem": 3
+	},
+	{
+		"id": "lorenzetti",
+		"nome": "Lorenzetti",
+		"logo": "../assets/images/logo-lorenzetti.png",
+		"ordem": 4
+	},
+	{
+		"id": "embramaco",
+		"nome": "Embramaco",
+		"logo": "../assets/images/logo-embramaco.png",
+		"ordem": 5
+	},
+	{
+		"id": "fortlev",
+		"nome": "Fortlev",
+		"logo": "../assets/images/logo-fortlev.png",
+		"ordem": 6
+	},
+	{
+		"id": "quartzolit",
+		"nome": "Quartzolit",
+		"logo": "../assets/images/logo-quartzolit.png",
+		"ordem": 7
+	},
+	{
+		"id": "formigres",
+		"nome": "Formigres",
+		"logo": "../assets/images/logo-formigres.png",
+		"ordem": 8
+	},
+	{
+		"id": "nardini",
+		"nome": "Nardini",
+		"logo": "../assets/images/logo-nardini.png",
+		"ordem": 9
+	},
+	{
+		"id": "fortaleza",
+		"nome": "Fortaleza",
+		"logo": "../assets/images/logo-fortaleza.png",
+		"ordem": 10
+	},
+	{
+		"id": "mgm",
+		"nome": "MGM",
+		"logo": "../assets/images/logo-mgm.png",
+		"ordem": 11
+	},
+	{
+		"id": "lef",
+		"nome": "LEF",
+		"logo": "../assets/images/logo-lef.png",
+		"ordem": 12
+	},
+	{
+		"id": "astras",
+		"nome": "Astras",
+		"logo": "../assets/images/logo-astras.png",
+		"ordem": 13
+	},
+	{
+		"id": "ceral",
+		"nome": "Ceral",
+		"logo": "../assets/images/logo-ceral.png",
+		"ordem": 14
+	},
+	{
+		"id": "ferja",
+		"nome": "Ferja",
+		"logo": "../assets/images/logo-ferja.png",
+		"ordem": 15
+	},
+	{
+		"id": "mm-gabinetes",
+		"nome": "MM Gabinetes",
+		"logo": "../assets/images/logo-mm-gabinetes.png",
+		"ordem": 16
+	}
+]

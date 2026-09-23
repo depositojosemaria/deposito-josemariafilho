@@ -1,0 +1,42 @@
+[
+	{
+		"id": "ronaldo-marinho-cabral",
+		"autor": "Ronaldo Marinho Cabral",
+		"nota": 5,
+		"texto": "Melhor que muitos por ai",
+		"dataOriginal": "um ano atrás",
+		"ordem": 1
+	},
+	{
+		"id": "jurisbalino-da-silva",
+		"autor": "Jurisbalino Da Silva",
+		"nota": 5,
+		"texto": "As atendentes são muito educadas e prestativas.",
+		"dataOriginal": "3 semanas atrás",
+		"ordem": 2
+	},
+	{
+		"id": "fabio-mendes",
+		"autor": "Fabio Mendes",
+		"nota": 5,
+		"texto": "Muito bom.",
+		"dataOriginal": "4 meses atrás",
+		"ordem": 3
+	},
+	{
+		"id": "helio-venegeroles",
+		"autor": "Hélio Venegeroles",
+		"nota": 5,
+		"texto": "Ótimo atendimento, continuem assim",
+		"dataOriginal": "um ano atrás",
+		"ordem": 4
+	},
+	{
+		"id": "jonatas-abrao",
+		"autor": "Jonatas Abrao",
+		"nota": 5,
+		"texto": "Ótimo atendimento,",
+		"dataOriginal": "um ano atrás",
+		"ordem": 5
+	}
+]

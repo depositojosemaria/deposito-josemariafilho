@@ -1,0 +1,26 @@
+[
+	{
+		"id": "anos-de-experiencia",
+		"valor": "+23",
+		"rotulo": "Anos de experiência",
+		"ordem": 1
+	},
+	{
+		"id": "unidades",
+		"valor": "3",
+		"rotulo": "Unidades em Poá e Suzano",
+		"ordem": 2
+	},
+	{
+		"id": "pisos-e-revestimentos",
+		"valor": "150+",
+		"rotulo": "Modelos de pisos e revestimentos",
+		"ordem": 3
+	},
+	{
+		"id": "marcas-parceiras",
+		"rotulo": "Marcas parceiras líderes de mercado",
+		"destaque": "líderes",
+		"ordem": 4
+	}
+]

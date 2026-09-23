@@ -1,0 +1,20 @@
+[
+	{
+		"id": "construcao-e-coisa-seria",
+		"imagem": "../assets/images/banner-construcao-e-coisa-seria.png",
+		"alt": "Banner do Depósito José Maria Filho com o texto Construção é coisa séria, a lista de areia, pedra, cimento, mais de 150 modelos de pisos e a frase Compromisso com quem constrói",
+		"ordem": 1
+	},
+	{
+		"id": "cobrimos-orcamento",
+		"imagem": "../assets/images/banner-cobrimos-orcamento.png",
+		"alt": "Banner do Depósito José Maria Filho com o texto Cobrimos o seu orçamento e os endereços e telefones das três lojas",
+		"ordem": 2
+	},
+	{
+		"id": "sua-construcao",
+		"imagem": "../assets/images/banner-sua-construcao.png",
+		"alt": "Banner do Depósito José Maria Filho com o texto Sua construção merece o melhor, conte com a gente",
+		"ordem": 3
+	}
+]

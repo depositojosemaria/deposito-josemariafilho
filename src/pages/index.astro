@@ -1,5 +1,21 @@
 ---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import '../styles/global.css';
+
+const [site, unidades, categorias, diferenciais, banners, ofertas, marcas, depoimentos] =
+	await Promise.all([
+		getCollection('site'),
+		getCollection('unidades'),
+		getCollection('categorias'),
+		getCollection('diferenciais'),
+		getCollection('banners'),
+		getCollection('ofertas'),
+		getCollection('marcas'),
+		getCollection('depoimentos'),
+	]);
+
+const unidade = [...unidades].sort((a, b) => a.data.ordem - b.data.ordem)[0];
 ---
 
 <html lang="pt-BR">
@@ -10,5 +26,25 @@ import '../styles/global.css';
 	</head>
 	<body>
 		<h1 class="font-display text-brand">Depósito José Maria Filho</h1>
+		<ul>
+			<li>site: {site.length}</li>
+			<li>unidades: {unidades.length}</li>
+			<li>categorias: {categorias.length}</li>
+			<li>diferenciais: {diferenciais.length}</li>
+			<li>banners: {banners.length}</li>
+			<li>ofertas: {ofertas.length}</li>
+			<li>marcas: {marcas.length}</li>
+			<li>depoimentos: {depoimentos.length}</li>
+		</ul>
+		{
+			unidade && (
+				<Image
+					src={unidade.data.imagem}
+					alt="Fachada da loja do Depósito José Maria Filho em Poá, no Jardim São José"
+					format="webp"
+					quality="mid"
+				/>
+			)
+		}
 	</body>
 </html>

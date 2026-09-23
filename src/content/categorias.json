@@ -1,0 +1,66 @@
+[
+	{
+		"id": "materiais-basicos",
+		"nome": "Materiais Básicos",
+		"icone": "../assets/images/icone-materiais-basicos.png",
+		"itens": ["Areia e Pedra", "Cimento", "Tijolos e Blocos de Concreto", "Cal e Gesso"],
+		"ordem": 1
+	},
+	{
+		"id": "ferragens-e-ferramentas",
+		"nome": "Ferragens e Ferramentas",
+		"icone": "../assets/images/icone-ferragens-e-ferramentas.png",
+		"itens": ["Ferramentas Manuais", "Ferramentas Elétricas", "Pregos, Parafusos e Fixadores", "EPIs e Segurança"],
+		"ordem": 2
+	},
+	{
+		"id": "eletrica",
+		"nome": "Elétrica",
+		"icone": "../assets/images/icone-eletrica.png",
+		"itens": ["Fios e Cabos", "Quadros e Disjuntores", "Tomadas e Interruptores", "Eletrodutos e Conduítes"],
+		"ordem": 3
+	},
+	{
+		"id": "hidraulica",
+		"nome": "Hidráulica",
+		"icone": "../assets/images/icone-hidraulica.png",
+		"itens": ["Tubos e Conexões", "Registros e Válvulas", "Caixas d'Água"],
+		"ordem": 4
+	},
+	{
+		"id": "pisos-e-revestimentos",
+		"nome": "Pisos e Revestimentos",
+		"icone": "../assets/images/icone-pisos-e-revestimentos.png",
+		"itens": ["Pisos Cerâmicos", "Pequenos e Grandes Formatos", "Revestimentos de Parede"],
+		"selo": "✨ Mais de 150 modelos",
+		"ordem": 5
+	},
+	{
+		"id": "tintas-e-impermeabilizantes",
+		"nome": "Tintas e Impermeabilizantes",
+		"icone": "../assets/images/icone-tintas-e-impermeabilizantes.png",
+		"itens": ["Tintas e Vernizes", "Impermeabilizantes", "Argamassas e Rejuntes", "Aditivos e Solventes"],
+		"ordem": 6
+	},
+	{
+		"id": "gabinetes-de-cozinha",
+		"nome": "Gabinetes de Cozinha",
+		"icone": "../assets/images/icone-gabinetes-cozinha.png",
+		"itens": ["Gabinetes Modulados", "Armários e Balcões", "Nichos e Prateleiras"],
+		"ordem": 7
+	},
+	{
+		"id": "banheiro-e-loucas",
+		"nome": "Banheiro e Louças",
+		"icone": "../assets/images/icone-banheiro-e-loucas.png",
+		"itens": ["Vasos Sanitários", "Pias e Lavatórios", "Duchas e Chuveiros", "Metais e Torneiras"],
+		"ordem": 8
+	},
+	{
+		"id": "iluminacao",
+		"nome": "Iluminação",
+		"icone": "../assets/images/icone-iluminacao.png",
+		"itens": ["Lâmpadas LED", "Luminárias e Plafons", "Spots e Trilhos"],
+		"ordem": 9
+	}
+]

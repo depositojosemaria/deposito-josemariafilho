@@ -1,0 +1,47 @@
+[
+	{
+		"id": "poa-jardim-sao-jose",
+		"nome": "Poá — Jd. São José",
+		"logradouro": "Av. Águas da Prata",
+		"numero": "1107",
+		"bairro": "Jd. São José",
+		"cidade": "Poá",
+		"uf": "SP",
+		"telefone": "(11) 4636-8547",
+		"whatsapp": "5511983190553",
+		"mapsUrl": "https://share.google/OQNobii3kxe1yYdQW",
+		"rotaUrl": "https://www.google.com/maps/dir/?api=1&destination=Rua+%C3%81guas+da+Prata+1107+Po%C3%A1+SP",
+		"imagem": "../assets/images/fachada-loja-poa.png",
+		"ordem": 1
+	},
+	{
+		"id": "suzano-vila-urupes",
+		"nome": "Suzano — Vila Urupês",
+		"logradouro": "Rua Caboclo",
+		"numero": "555",
+		"bairro": "Vila Urupês",
+		"cidade": "Suzano",
+		"uf": "SP",
+		"telefone": "(11) 4747-4920",
+		"whatsapp": "551147474920",
+		"mapsUrl": "https://share.google/IJRUQZAYHX6u3mlEC",
+		"rotaUrl": "https://www.google.com/maps/dir/?api=1&destination=Rua+Caboclo+555+Suzano+SP",
+		"imagem": "../assets/images/fachada-loja-suzano-vila-urupes.png",
+		"ordem": 2
+	},
+	{
+		"id": "suzano-parque-santa-rosa",
+		"nome": "Suzano — Pq. Santa Rosa",
+		"logradouro": "Estrada dos Fernandes",
+		"numero": "2.657",
+		"bairro": "Pq. Santa Rosa",
+		"cidade": "Suzano",
+		"uf": "SP",
+		"telefone": "(11) 96183-6720",
+		"whatsapp": "5511961836720",
+		"mapsUrl": "https://share.google/Y6QBkRkPNDmmrFbA9",
+		"rotaUrl": "https://www.google.com/maps/dir/?api=1&destination=Estrada+dos+Fernandes+2657+Suzano+SP",
+		"imagem": "../assets/images/fachada-loja-suzano-parque-santa-rosa.png",
+		"ordem": 3
+	}
+]
