@@ -2,19 +2,19 @@
 	{
 		"id": "construcao-e-coisa-seria",
 		"imagem": "../assets/images/banner-construcao-e-coisa-seria.png",
-		"alt": "Banner do Depósito José Maria Filho com o texto Construção é coisa séria, a lista de areia, pedra, cimento, mais de 150 modelos de pisos e a frase Compromisso com quem constrói",
+		"alt": "Construção é coisa séria! Aqui tem qualidade de verdade. Areia, pedra, cimento. +150 modelos de pisos, revestimentos e porcelanatos. A Entrega +Rápida da Região. COMPROMISSO COM QUEM CONSTRÓI. DEPÓSITO JOSÉ MARIA FILHO. Materiais de Construção",
 		"ordem": 1
 	},
 	{
 		"id": "cobrimos-orcamento",
 		"imagem": "../assets/images/banner-cobrimos-orcamento.png",
-		"alt": "Banner do Depósito José Maria Filho com o texto Cobrimos o seu orçamento e os endereços e telefones das três lojas",
+		"alt": "Cobrimos o seu orçamento! Achou mais barato? A gente cobre a oferta pra você economizar na sua obra! Traga seu orçamento e garanta o melhor negócio! LOJA 01 — AV. ÁGUAS DA PRATA, 1.107 — JARDIM SÃO JOSÉ, POÁ - SP — (11) 98319-0553. LOJA 02 — RUA CABOCLO, 555 — VILA URUPÊS — (11) 4747-4920. LOJA 03 — ESTRADA DOS FERNANDES, 2.657 — PQ SANTA ROSA — (11) 96183-6720. Consulte condições com um de nossos vendedores*. DEPÓSITO JOSÉ MARIA FILHO. Materiais de Construção",
 		"ordem": 2
 	},
 	{
 		"id": "sua-construcao",
 		"imagem": "../assets/images/banner-sua-construcao.png",
-		"alt": "Banner do Depósito José Maria Filho com o texto Sua construção merece o melhor, conte com a gente",
+		"alt": "Sua construção merece o melhor! Conte com a gente! DEPÓSITO JOSÉ MARIA FILHO. Materiais de Construção",
 		"ordem": 3
 	}
 ]

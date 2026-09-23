@@ -1,6 +1,9 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Banners from '../components/sections/Banners.astro';
+import Diferenciais from '../components/sections/Diferenciais.astro';
+import Hero from '../components/sections/Hero.astro';
 import { lojaSchema, organizationSchema, websiteSchema } from '../lib/schema';
 
 const site = await getEntry('site', 'geral');
@@ -23,5 +26,7 @@ const jsonLd = [await organizationSchema(site), websiteSchema(site), ...lojas];
 	description="Depósito José Maria Filho: mais de 23 anos em materiais para construção. Areia, cimento, pisos, revestimentos, elétrica, hidráulica e muito mais. 3 unidades em Poá e Suzano-SP."
 	jsonLd={jsonLd}
 >
-	<h1 class="font-display font-black">Depósito José Maria Filho</h1>
+	<Hero />
+	<Banners />
+	<Diferenciais />
 </BaseLayout>
