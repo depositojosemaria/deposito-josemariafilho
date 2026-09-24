@@ -2,6 +2,7 @@
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Banners from '../components/sections/Banners.astro';
+import Contato from '../components/sections/Contato.astro';
 import Depoimentos from '../components/sections/Depoimentos.astro';
 import Diferenciais from '../components/sections/Diferenciais.astro';
 import Hero from '../components/sections/Hero.astro';
@@ -35,4 +36,5 @@ const jsonLd = [await organizationSchema(site), websiteSchema(site), ...lojas];
 	<Unidades />
 	<Marcas />
 	<Depoimentos />
+	<Contato />
 </BaseLayout>
