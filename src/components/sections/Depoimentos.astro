@@ -61,7 +61,6 @@ function inicial(nome: string) {
 								</span>
 								<div class="depoimento-autor">
 									<p class="depoimento-nome">{item.data.autor}</p>
-									<p class="depoimento-data">{item.data.dataOriginal}</p>
 								</div>
 								<svg class="google-logo" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24">
 									<path
@@ -170,7 +169,7 @@ function inicial(nome: string) {
 
 	.intro p {
 		margin: 0 0 var(--spacing-subtitle);
-		color: var(--color-muted);
+		color: var(--color-review-kicker);
 		font-size: var(--text-section-subtitle);
 	}
 
@@ -245,12 +244,6 @@ function inicial(nome: string) {
 		color: var(--color-ink);
 		font-size: var(--text-review-name);
 		font-weight: var(--font-weight-bold);
-	}
-
-	.depoimento-data {
-		margin: 0;
-		color: var(--color-muted);
-		font-size: var(--text-review-date);
 	}
 
 	.google-logo {

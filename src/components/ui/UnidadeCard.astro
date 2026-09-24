@@ -42,7 +42,7 @@ function rotuloLoja(ordem: number) {
 			href={data.mapsUrl}
 			target="_blank"
 			rel="noopener"
-			aria-label={`Ver no mapa a unidade ${data.nome}`}
+			aria-label={`${site.data.ctaMaps}: unidade ${data.nome}`}
 		>
 			<Icon nome="pin" tamanho={14} />
 			{site.data.ctaMaps}
@@ -52,7 +52,7 @@ function rotuloLoja(ordem: number) {
 			href={data.rotaUrl}
 			target="_blank"
 			rel="noopener"
-			aria-label={`Criar rota para a unidade ${data.nome}`}
+			aria-label={`${site.data.ctaRota}: unidade ${data.nome}`}
 		>
 			<Icon nome="rota" tamanho={14} />
 			{site.data.ctaRota}
@@ -168,7 +168,7 @@ function rotuloLoja(ordem: number) {
 
 	.unidade-num {
 		margin: 0 0 6px;
-		color: var(--color-brand);
+		color: var(--color-brand-on-dark);
 		font-size: var(--text-unit-kicker);
 		font-weight: var(--font-weight-bold);
 		letter-spacing: var(--tracking-unit-label);

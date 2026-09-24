@@ -48,7 +48,7 @@ const whatsappSemMensagem = linkWhatsApp(site.data.whatsapp);
 			</div>
 
 			<div class="footer-col">
-				<h4>Nossas Unidades</h4>
+				<h2 class="footer-titulo">Nossas Unidades</h2>
 				<address>
 					<ul class="footer-links">
 						{
@@ -66,7 +66,7 @@ const whatsappSemMensagem = linkWhatsApp(site.data.whatsapp);
 			</div>
 
 			<div class="footer-col">
-				<h4>Contato</h4>
+				<h2 class="footer-titulo">Contato</h2>
 				<address>
 					<ul class="footer-links">
 						{
@@ -173,9 +173,9 @@ const whatsappSemMensagem = linkWhatsApp(site.data.whatsapp);
 		background: var(--color-whatsapp);
 	}
 
-	.footer-col h4 {
-		margin-bottom: 18px;
-		color: var(--color-brand);
+	.footer-titulo {
+		margin: 1.33em 0 18px;
+		color: var(--color-brand-on-dark);
 		font-family: var(--font-display);
 		font-size: var(--text-footer-heading);
 		font-weight: var(--font-weight-bold);
@@ -230,7 +230,7 @@ const whatsappSemMensagem = linkWhatsApp(site.data.whatsapp);
 	.footer-copy,
 	.footer-privacy,
 	.footer-cookies {
-		color: rgba(255, 255, 255, 0.35);
+		color: var(--color-footer-muted);
 	}
 
 	.footer-privacy,
@@ -260,7 +260,7 @@ const whatsappSemMensagem = linkWhatsApp(site.data.whatsapp);
 	}
 
 	.footer-aprumo {
-		color: rgba(255, 255, 255, 0.25);
+		color: var(--color-footer-muted);
 	}
 
 	@media (min-width: 801px) {

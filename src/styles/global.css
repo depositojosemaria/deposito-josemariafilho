@@ -26,17 +26,26 @@
   /* --red-dark. Declarada no :root e não usada em nenhuma regra. */
   --color-brand-dark: #a30000;
 
-  /* --green. .btn-whatsapp, .btn-wpp-header, .btn-wpp-unidade, .float-wpp e hover .wa do rodapé. */
-  --color-whatsapp: #25d366;
+  /* --green. .btn-whatsapp, .btn-wpp-header, .btn-wpp-unidade, .float-wpp e hover .wa do rodapé. Branco sobre este verde passa 4,5:1. */
+  --color-whatsapp: #16873f;
 
-  /* --green-dark. Hover dos botões WhatsApp. */
-  --color-whatsapp-dark: #128c7e;
+  /* --green-dark. Hover dos botões WhatsApp, um tom abaixo de --color-whatsapp. */
+  --color-whatsapp-dark: #127233;
+
+  /* Vermelho só sobre #111111 e #1e1e1e: rótulos LOJA e títulos do rodapé. Os outros vermelhos continuam em --color-brand. */
+  --color-brand-on-dark: #ff5c5c;
 
   /* --dark. Texto do body, fundo do .hero, .unidades e footer, hover do .btn-submit. Título do placeholder do Instagram. */
   --color-ink: #111111;
 
   /* --gray. .section-subtitle, .produto-items, .diferencial-label, .ofertas-counter, texto do placeholder do Instagram. */
   --color-muted: #6b7280;
+
+  /* “Avaliações verificadas no Google”, sobre #f4f4f4. */
+  --color-review-kicker: #5b6270;
+
+  /* Copyright, política, cookies e créditos do rodapé, sobre #111111. */
+  --color-footer-muted: #9ca3af;
 
   /* --light. Fundo de .diferenciais e .depoimentos, ícones sociais do header, .parceiro-item, .oferta-empty, atalhos do menu mobile. */
   --color-surface: #f4f4f4;
@@ -516,10 +525,10 @@
   --shadow-contact-cta: 0 4px 16px rgba(0, 0, 0, 0.2);
 
   /* .float-wpp */
-  --shadow-float: 0 4px 20px rgba(37, 211, 102, 0.5);
+  --shadow-float: 0 4px 20px rgba(22, 135, 63, 0.5);
 
   /* @keyframes pulse-wpp, no meio da animação */
-  --shadow-float-pulse: 0 4px 32px rgba(37, 211, 102, 0.9);
+  --shadow-float-pulse: 0 4px 32px rgba(22, 135, 63, 0.9);
 
   /* --transition: all 0.3s ease */
   --ease-brand: ease;
