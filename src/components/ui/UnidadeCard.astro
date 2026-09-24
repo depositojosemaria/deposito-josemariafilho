@@ -1,0 +1,237 @@
+---
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { linkTelefone, linkWhatsApp } from '../../lib/format';
+import Icon from './Icon.astro';
+
+interface Props {
+	unidade: CollectionEntry<'unidades'>;
+	site: CollectionEntry<'site'>;
+	nivel?: 'h2' | 'h3';
+}
+
+const { unidade, site, nivel = 'h3' } = Astro.props;
+const { data } = unidade;
+const Titulo = nivel;
+const numeroWhatsapp = data.whatsapp || data.telefone;
+const whatsapp = numeroWhatsapp ? linkWhatsApp(numeroWhatsapp, site.data.mensagemWhatsapp) : undefined;
+
+function rotuloLoja(ordem: number) {
+	return `Loja ${String(ordem).padStart(2, '0')}`;
+}
+---
+
+<li class="unidade-card">
+	<div class="unidade-foto">
+		<Picture
+			src={data.imagem}
+			formats={['avif', 'webp']}
+			widths={[480, 680]}
+			sizes="(min-width: 901px) 380px, 480px"
+			alt={data.alt}
+			width={data.imagem.width}
+			height={data.imagem.height}
+			quality="mid"
+			loading="lazy"
+			decoding="async"
+		/>
+	</div>
+	<div class="unidade-acoes">
+		<a
+			class="unidade-maps"
+			href={data.mapsUrl}
+			target="_blank"
+			rel="noopener"
+			aria-label={`Ver no mapa a unidade ${data.nome}`}
+		>
+			<Icon nome="pin" tamanho={14} />
+			{site.data.ctaMaps}
+		</a>
+		<a
+			class="unidade-rota"
+			href={data.rotaUrl}
+			target="_blank"
+			rel="noopener"
+			aria-label={`Criar rota para a unidade ${data.nome}`}
+		>
+			<Icon nome="rota" tamanho={14} />
+			{site.data.ctaRota}
+		</a>
+	</div>
+	<div class="unidade-info">
+		<p class="unidade-num">{rotuloLoja(data.ordem)}</p>
+		<Titulo class="unidade-nome">
+			<a href={`/unidades/${unidade.id}/`}>{data.nome}</a>
+		</Titulo>
+		<address>
+			{data.logradouro}, {data.numero}
+			{data.complemento && <>, {data.complemento}</>}
+			<br />
+			{data.bairro} — {data.cidade}, {data.uf}
+		</address>
+		{data.telefone && (
+			<a class="unidade-tel" href={linkTelefone(data.telefone)}>
+				<Icon nome="telefone" tamanho={15} />
+				{data.telefone}
+			</a>
+		)}
+		{whatsapp && (
+			<a class="unidade-whatsapp" href={whatsapp} target="_blank" rel="noopener">
+				<Icon nome="whatsapp" tamanho={17} />
+				{site.data.ctaWhatsappUnidade}
+			</a>
+		)}
+	</div>
+</li>
+
+<style>
+	.unidade-card {
+		overflow: hidden;
+		border: 1px solid var(--color-unit-border);
+		border-radius: var(--radius-card);
+		background: var(--color-unit);
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.unidade-card:hover {
+		border-color: var(--color-brand);
+	}
+
+	.unidade-foto {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.unidade-foto :global(picture),
+	.unidade-foto :global(img) {
+		display: block;
+	}
+
+	.unidade-foto :global(img) {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+		transition: transform 0.4s ease;
+	}
+
+	.unidade-card:hover .unidade-foto :global(img) {
+		transform: scale(1.04);
+	}
+
+	.unidade-acoes {
+		display: flex;
+	}
+
+	.unidade-maps,
+	.unidade-rota {
+		display: flex;
+		flex: 1;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
+		padding: 10px 6px;
+		font-size: var(--text-unit-action);
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.unidade-acoes :global(svg) {
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
+	}
+
+	.unidade-maps {
+		background: var(--color-maps);
+		color: var(--color-white);
+	}
+
+	.unidade-maps:hover {
+		background: var(--color-brand);
+	}
+
+	.unidade-rota {
+		border-left: 1px solid rgba(255, 255, 255, 0.08);
+		background: var(--color-route);
+		color: rgba(255, 255, 255, 0.8);
+	}
+
+	.unidade-rota:hover {
+		background: rgba(255, 255, 255, 0.14);
+		color: var(--color-white);
+	}
+
+	.unidade-info {
+		padding: var(--spacing-unit-info-top) var(--spacing-unit-info-x) var(--spacing-unit-info-bottom);
+	}
+
+	.unidade-num {
+		margin: 0 0 6px;
+		color: var(--color-brand);
+		font-size: var(--text-unit-kicker);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--tracking-unit-label);
+		text-transform: uppercase;
+	}
+
+	.unidade-nome {
+		margin: 0 0 10px;
+		font-family: var(--font-display);
+		font-size: var(--text-unit-name);
+		font-weight: var(--font-weight-extrabold);
+		line-height: var(--leading-heading);
+	}
+
+	.unidade-nome a {
+		color: var(--color-white);
+		text-decoration: none;
+	}
+
+	address {
+		margin: 0 0 14px;
+		color: var(--color-unit-address);
+		font-size: var(--text-unit-address);
+		font-style: normal;
+		line-height: 1.5;
+	}
+
+	.unidade-tel {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-bottom: 10px;
+		color: var(--color-unit-phone);
+		font-size: var(--text-unit-phone);
+		text-decoration: none;
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.unidade-tel:hover {
+		color: var(--color-white);
+	}
+
+	.unidade-tel :global(svg) {
+		flex-shrink: 0;
+	}
+
+	.unidade-whatsapp {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		width: 100%;
+		padding: 11px;
+		border-radius: var(--radius-control);
+		background: var(--color-whatsapp);
+		color: var(--color-white);
+		font-size: var(--text-unit-whatsapp);
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.unidade-whatsapp:hover {
+		background: var(--color-whatsapp-dark);
+	}
+</style>

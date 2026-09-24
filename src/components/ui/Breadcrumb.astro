@@ -1,0 +1,66 @@
+---
+import JsonLd from '../seo/JsonLd.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+
+interface Item {
+	nome: string;
+	url: string;
+}
+
+interface Props {
+	itens: Item[];
+}
+
+const { itens } = Astro.props;
+const origem = Astro.site ?? new URL('https://depositojosemariafilho.com.br');
+const schema = breadcrumbSchema(
+	itens.map((item) => ({
+		nome: item.nome,
+		url: new URL(item.url, origem).href,
+	})),
+);
+---
+
+<nav aria-label="Você está aqui">
+	<ol>
+		{
+			itens.map((item, indice) => {
+				const ultimo = indice === itens.length - 1;
+				return (
+					<li aria-current={ultimo ? 'page' : undefined}>
+						{ultimo ? item.nome : <a href={item.url}>{item.nome}</a>}
+						{!ultimo && <span aria-hidden="true"> → </span>}
+					</li>
+				);
+			})
+		}
+	</ol>
+</nav>
+<JsonLd data={schema} />
+
+<style>
+	ol {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		margin: 0 0 24px;
+		padding: 0;
+		color: var(--color-muted);
+		font-size: 0.9rem;
+		list-style: none;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: var(--color-brand);
+	}
+
+	li[aria-current='page'] {
+		color: var(--color-ink);
+		font-weight: var(--font-weight-bold);
+	}
+</style>

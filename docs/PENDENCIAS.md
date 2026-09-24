@@ -39,6 +39,16 @@ O que não está em `docs/REFERENCIA.md` não foi inventado. Os JSON em `src/con
 - Texto da política de privacidade. Só existe o link `https://depositojosemariafilho.com.br/politica-de-privacidade.html`. O HTML não foi salvo.
 - Destino do formulário (`enviar.php`) e para onde o e-mail é enviado.
 
+## Conteúdo exclusivo por loja (para diferenciar as páginas de unidade)
+
+- Horário.
+- CEP.
+- Pontos de referência.
+- Estacionamento.
+- Se faz entrega e para quais bairros.
+- Fotos internas.
+- Especialidades de cada loja.
+
 ## Alts reescritos
 
 Os alts originais dos banners (`Oferta 1`, `Oferta 2`, `Oferta 3`) e das ofertas (`Oferta do mes 1`, `Oferta do mes 2`, `Oferta do mes 3`) eram genéricos. Os JSON usam alts descritivos em português. As fotos de fachada não tinham um campo de alt na collection; o alt original era `Fachada Loja 1 — Poá, Jd. São José` (e os equivalentes das lojas 2 e 3).
