@@ -48,7 +48,11 @@ function inicial(nome: string) {
 	<Carrossel duracao="45s">
 		{
 			[false, true].map((copia) => (
-				<ul class:list={['carrossel-grupo', { 'carrossel-copia': copia }]} aria-hidden={copia ? true : undefined}>
+				<ul
+					class:list={['carrossel-grupo', { 'carrossel-copia': copia }]}
+					aria-hidden={copia ? 'true' : undefined}
+					inert={copia ? true : undefined}
+				>
 					{depoimentos.map((item, indice) => (
 						<li class="depoimento-card">
 							<div class="depoimento-topo">

@@ -115,7 +115,9 @@ const slidesDesktop = desktop ?? slidesTablet;
 
 	@media (prefers-reduced-motion: reduce) {
 		.carrossel {
-			overflow: visible;
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			scrollbar-width: thin;
 		}
 
 		.carrossel::before,
@@ -124,12 +126,6 @@ const slidesDesktop = desktop ?? slidesTablet;
 		}
 
 		.carrossel-trilho {
-			flex-wrap: wrap;
-			justify-content: center;
-			width: auto;
-			max-width: var(--container-page);
-			margin-inline: auto;
-			padding-inline: var(--spacing-container-x);
 			animation: none !important;
 		}
 
@@ -138,10 +134,11 @@ const slidesDesktop = desktop ?? slidesTablet;
 		}
 
 		.carrossel-trilho :global(.carrossel-grupo) {
-			flex-wrap: wrap;
-			justify-content: center;
-			width: 100%;
 			padding-right: 0;
+		}
+
+		.carrossel-trilho :global(.carrossel-grupo > li) {
+			scroll-snap-align: start;
 		}
 	}
 
