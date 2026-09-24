@@ -18,6 +18,7 @@ O que não está em `docs/REFERENCIA.md` não foi inventado. Os JSON em `src/con
 - **Rótulos “Loja 01”, “Loja 02” e “Loja 03”.** Existem no card e não têm campo próprio. O `nome` gravado é o do card (`Poá — Jd. São José`, e os equivalentes).
 - **Nomes no rodapé.** O rodapé escreve `Loja 1 — Poá, Jd. São José`, `Loja 2 — Suzano, Vila Urupês` e `Loja 3 — Suzano, Pq. Santa Rosa`. Diferem do nome do card.
 - **CNPJ.** Só existe um no copyright: `16.889.395/0001-65`. Não há CNPJ por unidade.
+- Fotos das fachadas das 3 lojas em alta resolução (mínimo 1920px de largura) — a atual tem 680px e fica esticada no hero em desktop.
 
 ## Depoimentos
 

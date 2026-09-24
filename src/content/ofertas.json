@@ -2,19 +2,19 @@
 	{
 		"id": "oferta-mes-1",
 		"imagem": "../assets/images/oferta-mes-1.png",
-		"alt": "Tabloide de ofertas do mês do Depósito José Maria Filho, página 1",
+		"alt": "Encarte de ofertas do mês com churrasqueiras, tinta acrílica e argamassa",
 		"ordem": 1
 	},
 	{
 		"id": "oferta-mes-2",
 		"imagem": "../assets/images/oferta-mes-2.png",
-		"alt": "Tabloide de ofertas do mês do Depósito José Maria Filho, página 2",
+		"alt": "Encarte de ofertas do mês com rejunte, conjuntos de banheiro e gabinetes",
 		"ordem": 2
 	},
 	{
 		"id": "oferta-mes-3",
 		"imagem": "../assets/images/oferta-mes-3.png",
-		"alt": "Tabloide de ofertas do mês do Depósito José Maria Filho, página 3",
+		"alt": "Encarte de ofertas do mês com pisos, revestimentos e churrasqueiras",
 		"ordem": 3
 	}
 ]

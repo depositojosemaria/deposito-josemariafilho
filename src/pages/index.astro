@@ -7,6 +7,8 @@ import Depoimentos from '../components/sections/Depoimentos.astro';
 import Diferenciais from '../components/sections/Diferenciais.astro';
 import Hero from '../components/sections/Hero.astro';
 import Marcas from '../components/sections/Marcas.astro';
+import Ofertas from '../components/sections/Ofertas.astro';
+import Produtos from '../components/sections/Produtos.astro';
 import Unidades from '../components/sections/Unidades.astro';
 import { lojaSchema, organizationSchema, websiteSchema } from '../lib/schema';
 
@@ -33,6 +35,8 @@ const jsonLd = [await organizationSchema(site), websiteSchema(site), ...lojas];
 	<Hero />
 	<Banners />
 	<Diferenciais />
+	<Produtos />
+	<Ofertas />
 	<Unidades />
 	<Marcas />
 	<Depoimentos />
