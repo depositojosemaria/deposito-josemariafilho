@@ -35,8 +35,8 @@ const whatsapp = linkWhatsApp(site.data.whatsapp, mensagem);
 						<Picture
 							src={oferta.data.imagem}
 							formats={['avif', 'webp']}
-							widths={[480, 768, 1200]}
-							sizes="(min-width: 901px) 33vw, 50vw"
+							widths={[160, 240, 320, 480]}
+							sizes="(min-width: 1240px) 329px, (min-width: 901px) calc((100vw - 164px) / 3 - 16px), calc(50vw - 72px)"
 							alt={oferta.data.alt}
 							width={oferta.data.imagem.width}
 							height={oferta.data.imagem.height}

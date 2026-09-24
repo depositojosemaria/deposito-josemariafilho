@@ -27,7 +27,7 @@ function rotuloLoja(ordem: number) {
 			src={data.imagem}
 			formats={['avif', 'webp']}
 			widths={[480, 680]}
-			sizes="(min-width: 901px) 380px, 480px"
+			sizes="(min-width: 901px) 380px, min(480px, calc(100vw - 40px))"
 			alt={data.alt}
 			width={data.imagem.width}
 			height={data.imagem.height}
