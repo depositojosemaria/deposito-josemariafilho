@@ -1,0 +1,223 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+
+const cnpj = site.data.copyright.match(/CNPJ\s+([\d./-]+)/)?.[1];
+const cnpjTexto = cnpj ? `, CNPJ ${cnpj}` : ' — [PENDENTE: CNPJ]';
+const atualizacao = new Intl.DateTimeFormat('pt-BR', {
+	timeZone: 'America/Sao_Paulo',
+	day: '2-digit',
+	month: '2-digit',
+	year: 'numeric',
+}).format(new Date());
+
+const migalhas = [
+	{ nome: 'Início', url: '/' },
+	{ nome: 'Política de Privacidade', url: '/politica-de-privacidade/' },
+];
+const descricao =
+	'Política de Privacidade do Depósito José Maria Filho: o formulário abre o WhatsApp, cookies só com consentimento e os direitos da LGPD.';
+---
+
+<BaseLayout title="Política de Privacidade | Depósito José Maria Filho" description={descricao}>
+	<article class="pagina">
+		<div class="container">
+			<Breadcrumb itens={migalhas} />
+			<header class="intro">
+				<h1>Política de Privacidade</h1>
+				<p>Última atualização: {atualizacao}</p>
+			</header>
+
+			<section aria-labelledby="quem-somos">
+				<h2 id="quem-somos">Quem somos</h2>
+				<p>
+					O controlador dos dados pessoais deste site é o {site.data.nome}{cnpjTexto}. A razão social é [PENDENTE: razão social]. O endereço da sede é [PENDENTE: endereço da sede].
+				</p>
+				<p>
+					Para falar sobre os seus dados, escreva para
+					<a href={`mailto:${site.data.email}`}>{site.data.email}</a>.
+				</p>
+			</section>
+
+			<section aria-labelledby="quais-dados">
+				<h2 id="quais-dados">Quais dados coletamos</h2>
+				<p>
+					O formulário de contato não guarda nome, telefone, e-mail nem mensagem neste site. Ao enviar, você
+					é levado ao WhatsApp com a mensagem já escrita. A conversa passa a seguir também a
+					<a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener">política de privacidade do WhatsApp</a>, que pertence à Meta.
+				</p>
+				<p>
+					Dados de navegação, como páginas visitadas e origem do acesso, só são coletados por cookies se você
+					autorizar.
+				</p>
+			</section>
+
+			<section aria-labelledby="cookies">
+				<h2 id="cookies">Cookies e ferramentas de terceiros</h2>
+				<p>Com o seu consentimento, o site pode usar estas ferramentas:</p>
+				<ul>
+					<li>
+						<strong>Google Tag Manager.</strong> Organiza as tags de medição e de anúncio que entram na página.
+					</li>
+					<li>
+						<strong>Google Analytics 4.</strong> Mede a audiência: quantas pessoas visitam o site e quais páginas
+						elas veem.
+					</li>
+					<li>
+						<strong>Google Ads.</strong> Mede anúncios e permite mostrar anúncios do depósito para quem já visitou
+						o site.
+					</li>
+					<li>
+						<strong>Pixel da Meta.</strong> Mede anúncios no Facebook e no Instagram e ajuda a direcionar esses
+						anúncios.
+					</li>
+				</ul>
+				<p>
+					As regras do Google estão na
+					<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">
+						Política de Privacidade do Google
+					</a>
+					e na página de
+					<a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">
+						tecnologias de publicidade do Google
+					</a>
+					. As regras da Meta estão na
+					<a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener">
+						Política de Privacidade da Meta
+					</a>
+					.
+				</p>
+			</section>
+
+			<section aria-labelledby="como-usamos">
+				<h2 id="como-usamos">Como usamos os dados</h2>
+				<ul>
+					<li>Atender você e responder pedidos de orçamento pelo WhatsApp.</li>
+					<li>Entender como o site é usado, para melhorá-lo.</li>
+					<li>Medir e veicular anúncios, somente se você aceitar os cookies.</li>
+				</ul>
+			</section>
+
+			<section aria-labelledby="compartilhamento">
+				<h2 id="compartilhamento">Compartilhamento</h2>
+				<p>
+					Não vendemos dados pessoais. O que você escreve no formulário segue para a conversa de WhatsApp que
+					você abre. Os dados de navegação, se você consentir, são tratados pelas ferramentas citadas acima:
+					Google Tag Manager, Google Analytics 4, Google Ads e pixel da Meta.
+				</p>
+			</section>
+
+			<section aria-labelledby="direitos">
+				<h2 id="direitos">Direitos do titular</h2>
+				<p>
+					A Lei 13.709/2018 (LGPD), no art. 18, garante que você pode pedir confirmação do tratamento, acesso,
+					correção, anonimização, bloqueio ou exclusão, portabilidade, informação sobre com quem os dados foram
+					compartilhados e revogação do consentimento.
+				</p>
+				<p>
+					Para exercer esses direitos, envie um e-mail para
+					<a href={`mailto:${site.data.email}`}>{site.data.email}</a>.
+				</p>
+			</section>
+
+			<section aria-labelledby="gerenciar-cookies">
+				<h2 id="gerenciar-cookies">Como gerenciar cookies</h2>
+				<p>
+					O aceite e a recusa dos cookies de medição e de anúncio ficam no banner de consentimento.
+					[PENDENTE: banner de consentimento.]
+				</p>
+				<p>
+					Você também pode apagar ou bloquear cookies nas configurações do navegador. Bloquear cookies pode
+					impedir a medição de audiência e os anúncios, e o restante do site continua acessível.
+				</p>
+			</section>
+
+			<section aria-labelledby="alteracoes">
+				<h2 id="alteracoes">Alterações desta política</h2>
+				<p>
+					Quando este texto mudar, a data no topo da página é atualizada no próximo build do site. A versão
+					publicada em {atualizacao} é a que vale enquanto essa data estiver no topo.
+				</p>
+			</section>
+		</div>
+	</article>
+</BaseLayout>
+
+<style>
+	.pagina {
+		background: var(--color-white);
+		padding: var(--spacing-section) 0;
+		color: var(--color-ink);
+	}
+
+	.container {
+		max-width: 760px;
+		margin: 0 auto;
+		padding: 0 var(--spacing-container-x);
+	}
+
+	h1 {
+		margin: 0 0 8px;
+		font-family: var(--font-display);
+		font-size: var(--text-section-title);
+		font-weight: var(--font-weight-extrabold);
+		line-height: var(--leading-heading);
+	}
+
+	.intro p {
+		margin: 0 0 var(--spacing-subtitle);
+		color: var(--color-muted);
+		font-size: var(--text-section-subtitle);
+	}
+
+	h2 {
+		margin: 0 0 12px;
+		font-family: var(--font-display);
+		font-size: 1.35rem;
+		font-weight: var(--font-weight-bold);
+		line-height: var(--leading-heading);
+	}
+
+	section + section {
+		margin-top: 36px;
+	}
+
+	p,
+	li {
+		font-size: 1rem;
+		line-height: 1.7;
+	}
+
+	p {
+		margin: 0 0 12px;
+	}
+
+	ul {
+		margin: 0 0 12px;
+		padding-left: 1.2rem;
+	}
+
+	li + li {
+		margin-top: 8px;
+	}
+
+	a {
+		color: var(--color-brand);
+		font-weight: var(--font-weight-bold);
+	}
+
+	a:hover {
+		text-decoration: none;
+	}
+
+	a:focus-visible {
+		outline: 3px solid var(--color-brand);
+		outline-offset: 3px;
+	}
+</style>

@@ -49,6 +49,13 @@ O que não está em `docs/REFERENCIA.md` não foi inventado. Os JSON em `src/con
 - Fotos internas.
 - Especialidades de cada loja.
 
+## Política de privacidade
+
+- Revisão da Política de Privacidade pelo cliente (contador/advogado).
+- [PENDENTE: razão social]. Não há razão social em `docs/REFERENCIA.md` nem em `site.json`. O nome usado no site é `Depósito José Maria Filho`.
+- [PENDENTE: endereço da sede]. Não há endereço de sede nesses arquivos. Os endereços existentes são os das três lojas.
+- [PENDENTE: banner de consentimento]. A política descreve o banner para aceitar ou recusar cookies. O site ainda não tem esse banner, nem as tags de Google Tag Manager, Google Analytics 4, Google Ads e pixel da Meta.
+
 ## Alts reescritos
 
 Os alts originais dos banners (`Oferta 1`, `Oferta 2`, `Oferta 3`) e das ofertas (`Oferta do mes 1`, `Oferta do mes 2`, `Oferta do mes 3`) eram genéricos. Os JSON usam alts descritivos em português. As fotos de fachada não tinham um campo de alt na collection; o alt original era `Fachada Loja 1 — Poá, Jd. São José` (e os equivalentes das lojas 2 e 3).

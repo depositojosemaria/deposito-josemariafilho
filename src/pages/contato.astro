@@ -1,0 +1,225 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+import FormularioContato from '../components/ui/FormularioContato.astro';
+import Icon from '../components/ui/Icon.astro';
+import { formatarTelefoneExibicao, linkTelefone, linkWhatsApp } from '../lib/format';
+
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+
+const unidades = [...(await getCollection('unidades'))].sort((a, b) => a.data.ordem - b.data.ordem);
+const migalhas = [
+	{ nome: 'Início', url: '/' },
+	{ nome: 'Contato', url: '/contato/' },
+];
+const descricao =
+	'Fale com a equipe pelo WhatsApp, telefone ou formulário nas 3 lojas: Poá (Jd. São José), Suzano (Vila Urupês) e Suzano (Pq. Santa Rosa).';
+---
+
+<BaseLayout title="Contato e WhatsApp | Depósito José Maria Filho — Poá e Suzano" description={descricao}>
+	<div class="pagina">
+		<div class="container">
+			<Breadcrumb itens={migalhas} />
+			<header class="intro">
+				<h1>Fale com o <span>Depósito José Maria Filho</span></h1>
+			</header>
+		</div>
+		<section class="faixa" aria-label="Formulário e WhatsApp">
+			<div class="container">
+				<FormularioContato />
+			</div>
+		</section>
+		<div class="container bloco">
+			<section aria-labelledby="telefones-lojas">
+				<h2 id="telefones-lojas">Telefones e WhatsApp das lojas</h2>
+				<ul class="lojas">
+					{
+						unidades.map((unidade) => {
+							const whatsapp = unidade.data.whatsapp || unidade.data.telefone;
+							return (
+								<li>
+									<h3>
+										<a href={`/unidades/${unidade.id}/`}>{unidade.data.nome}</a>
+									</h3>
+									{unidade.data.telefone && (
+										<p>
+											<a href={linkTelefone(unidade.data.telefone)}>
+												<Icon nome="telefone" tamanho={16} />
+												{unidade.data.telefone}
+											</a>
+										</p>
+									)}
+									{whatsapp && (
+										<p>
+											<a
+												href={linkWhatsApp(whatsapp, site.data.mensagemWhatsapp)}
+												target="_blank"
+												rel="noopener"
+											>
+												<Icon nome="whatsapp" tamanho={16} />
+												{formatarTelefoneExibicao(whatsapp)}
+											</a>
+										</p>
+									)}
+								</li>
+							);
+						})
+					}
+				</ul>
+			</section>
+			<section aria-labelledby="email-redes">
+				<h2 id="email-redes">E-mail e redes sociais</h2>
+				<ul class="canais">
+					<li>
+						<a href={`mailto:${site.data.email}`}>
+							<Icon nome="email" tamanho={18} />
+							{site.data.email}
+						</a>
+					</li>
+					<li>
+						<a href={site.data.instagram} target="_blank" rel="noopener">
+							<Icon nome="instagram" tamanho={18} />
+							Instagram {site.data.instagramUsuario}
+						</a>
+					</li>
+					<li>
+						<a href={site.data.facebook} target="_blank" rel="noopener">
+							<Icon nome="facebook" tamanho={18} />
+							Facebook
+						</a>
+					</li>
+				</ul>
+			</section>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.pagina {
+		background: var(--color-white);
+		padding: var(--spacing-section) 0 0;
+	}
+
+	.container {
+		max-width: var(--container-page);
+		margin: 0 auto;
+		padding: 0 var(--spacing-container-x);
+	}
+
+	.intro {
+		text-align: center;
+	}
+
+	h1 {
+		margin: 0 0 var(--spacing-subtitle);
+		color: var(--color-ink);
+		font-family: var(--font-display);
+		font-size: var(--text-section-title);
+		font-weight: var(--font-weight-extrabold);
+		line-height: var(--leading-heading);
+	}
+
+	h1 span {
+		color: var(--color-brand);
+	}
+
+	.faixa {
+		background: var(--color-brand);
+		color: var(--color-white);
+		padding: var(--spacing-section) 0;
+	}
+
+	.bloco {
+		padding-top: var(--spacing-section);
+		padding-bottom: var(--spacing-section);
+	}
+
+	h2 {
+		margin: 0 0 var(--spacing-title);
+		color: var(--color-ink);
+		font-family: var(--font-display);
+		font-size: var(--text-section-title);
+		font-weight: var(--font-weight-extrabold);
+		line-height: var(--leading-heading);
+	}
+
+	section + section {
+		margin-top: var(--spacing-section);
+	}
+
+	.lojas,
+	.canais {
+		display: grid;
+		gap: 16px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.lojas li {
+		padding: 20px;
+		border: 1px solid var(--color-card-border);
+		border-radius: var(--radius-card);
+		background: var(--color-surface);
+	}
+
+	h3 {
+		margin: 0 0 12px;
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+		font-weight: var(--font-weight-bold);
+		line-height: var(--leading-heading);
+	}
+
+	h3 a,
+	.lojas p a,
+	.canais a {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		color: var(--color-ink);
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+	}
+
+	h3 a {
+		color: var(--color-brand);
+	}
+
+	.lojas p {
+		margin: 8px 0 0;
+	}
+
+	.lojas p a,
+	.canais a {
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+		font-weight: var(--font-weight-label);
+	}
+
+	a:hover {
+		color: var(--color-brand);
+	}
+
+	a:focus-visible {
+		outline: 3px solid var(--color-brand);
+		outline-offset: 3px;
+	}
+
+	.canais a {
+		padding: 14px 16px;
+		border: 1px solid var(--color-card-border);
+		border-radius: var(--radius-card);
+		background: var(--color-white);
+	}
+
+	@media (min-width: 901px) {
+		.lojas {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+</style>
