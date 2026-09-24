@@ -32,6 +32,7 @@ const site = defineCollection({
 		copyright: z.string(),
 		creditos: z.string(),
 		cnpj: z.string(),
+		gtmId: z.string(),
 	}),
 });
 

@@ -1,0 +1,36 @@
+---
+import { getEntry } from 'astro:content';
+
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+if (!/^GTM-[A-Z0-9]+$/.test(site.data.gtmId)) {
+	throw new Error('gtmId fora do formato esperado.');
+}
+---
+
+<script is:inline data-gtm-id={site.data.gtmId}>
+	(function () {
+		var id = document.currentScript && document.currentScript.getAttribute('data-gtm-id');
+		var carregado = false;
+		window.carregarGTM = function () {
+			if (carregado || !id) return;
+			carregado = true;
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+			var script = document.createElement('script');
+			script.async = true;
+			script.src = 'https://www.googletagmanager.com/gtm.js?id=' + id;
+			document.head.appendChild(script);
+		};
+		var eventos = ['scroll', 'pointerdown', 'keydown', 'touchstart'];
+		function iniciar() {
+			for (var i = 0; i < eventos.length; i++) window.removeEventListener(eventos[i], iniciar);
+			window.carregarGTM();
+		}
+		for (var i = 0; i < eventos.length; i++) {
+			window.addEventListener(eventos[i], iniciar, { once: true, passive: true });
+		}
+	})();
+</script>

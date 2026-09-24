@@ -69,7 +69,13 @@ Para cada categoria abaixo, faltam: marcas trabalhadas, produtos mais procurados
 - Revisão da Política de Privacidade pelo cliente (contador/advogado).
 - [PENDENTE: razão social]. Não há razão social em `docs/REFERENCIA.md` nem em `site.json`. O nome usado no site é `Depósito José Maria Filho`.
 - [PENDENTE: endereço da sede]. Não há endereço de sede nesses arquivos. Os endereços existentes são os das três lojas.
-- [PENDENTE: banner de consentimento]. A política descreve o banner para aceitar ou recusar cookies. O site ainda não tem esse banner, nem as tags de Google Tag Manager, Google Analytics 4, Google Ads e pixel da Meta.
+
+## GTM (configurar no painel do Google Tag Manager)
+
+- Obter acesso ao container GTM-MVZWDTJJ.
+- Garantir que GA4 (G-0VSMNP6YCZ), Google Ads (AW-18182219828) e o pixel da Meta estejam dentro do container, com a verificação de consentimento ativada.
+- Conversões do Google Ads: clique em link contendo `wa.me`, clique em link `tel:` e o evento personalizado `lead_formulario_whatsapp`.
+- Testar tudo no modo Preview do GTM.
 
 ## Alts reescritos
 

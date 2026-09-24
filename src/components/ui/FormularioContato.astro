@@ -91,10 +91,20 @@ const whatsapp = linkWhatsApp(site.data.whatsapp, site.data.mensagemWhatsapp);
 		const telefone = String(dados.get('telefone') || '').trim();
 		if (telefone) linhas.push('*Telefone:* ' + telefone);
 		linhas.push('*E-mail:* ' + dados.get('email'), '*Mensagem:* ' + dados.get('text'));
-		window.dataLayer = window.dataLayer || [];
-		window.dataLayer.push({ event: 'lead_formulario_whatsapp' });
 		const numero = form.getAttribute('data-whatsapp');
-		window.location.href = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(linhas.join('\n'));
+		let foi = false;
+		function irParaWhatsApp() {
+			if (foi) return;
+			foi = true;
+			window.location.href = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(linhas.join('\n'));
+		}
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({
+			event: 'lead_formulario_whatsapp',
+			eventCallback: irParaWhatsApp,
+			eventTimeout: 1500,
+		});
+		setTimeout(irParaWhatsApp, 1600);
 	});
 </script>
 

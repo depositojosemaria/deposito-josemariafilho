@@ -1,0 +1,137 @@
+<section id="banner-cookies" class="banner-cookies" role="region" aria-label="Aviso de cookies" hidden>
+	<p>
+		Usamos cookies para medir o acesso e melhorar nossos anúncios. Você pode aceitar ou recusar.
+		<a href="/politica-de-privacidade/">Política de Privacidade</a>
+	</p>
+	<div class="acoes">
+		<button type="button" id="cookies-aceitar">Aceitar</button>
+		<button type="button" id="cookies-recusar">Recusar</button>
+	</div>
+</section>
+
+<script is:inline>
+	(function () {
+		var banner = document.getElementById('banner-cookies');
+		var chave = 'consentimento-cookies';
+		function ler() {
+			try {
+				var salvo = JSON.parse(localStorage.getItem(chave));
+				if (salvo && salvo.versao === 1) return salvo;
+			} catch (e) {}
+			return null;
+		}
+		function salvar(analytics, ads) {
+			localStorage.setItem(
+				chave,
+				JSON.stringify({ versao: 1, analytics: analytics, ads: ads, data: new Date().toISOString() }),
+			);
+		}
+		function atualizar(analytics, ads) {
+			var estado = function (ok) {
+				return ok ? 'granted' : 'denied';
+			};
+			gtag('consent', 'update', {
+				analytics_storage: estado(analytics),
+				ad_storage: estado(ads),
+				ad_user_data: estado(ads),
+				ad_personalization: estado(ads),
+			});
+		}
+		window.mostrarBannerCookies = function () {
+			if (banner) banner.hidden = false;
+		};
+		function ocultar() {
+			if (banner) banner.hidden = true;
+		}
+		if (!ler()) window.mostrarBannerCookies();
+		document.getElementById('cookies-aceitar').addEventListener('click', function () {
+			salvar(true, true);
+			atualizar(true, true);
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({ event: 'consentimento_atualizado' });
+			ocultar();
+		});
+		document.getElementById('cookies-recusar').addEventListener('click', function () {
+			salvar(false, false);
+			atualizar(false, false);
+			ocultar();
+		});
+		var prefs = document.getElementById('preferencias-cookies');
+		if (prefs) prefs.addEventListener('click', window.mostrarBannerCookies);
+	})();
+</script>
+
+<style>
+	.banner-cookies {
+		position: fixed;
+		z-index: 10000;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px 12px;
+		padding: 10px 16px;
+		background: var(--color-ink);
+		color: var(--color-white);
+		box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
+	}
+
+	.banner-cookies[hidden] {
+		display: none;
+	}
+
+	p {
+		flex: 1 1 16rem;
+		margin: 0;
+		font-size: 0.875rem;
+		line-height: 1.35;
+	}
+
+	a {
+		color: var(--color-white);
+		font-weight: var(--font-weight-bold);
+		text-decoration: underline;
+	}
+
+	.acoes {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	button {
+		min-width: 7.5rem;
+		min-height: 44px;
+		padding: 10px 18px;
+		border: 2px solid var(--color-white);
+		border-radius: var(--radius-pill);
+		background: var(--color-white);
+		color: var(--color-ink);
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: var(--font-weight-bold);
+		cursor: pointer;
+	}
+
+	button:hover {
+		background: var(--color-surface);
+	}
+
+	button:focus-visible,
+	a:focus-visible {
+		outline: 3px solid var(--color-brand);
+		outline-offset: 3px;
+	}
+
+	:global(body:has(#banner-cookies:not([hidden])) .float-wpp) {
+		bottom: 148px;
+	}
+
+	@media (min-width: 720px) {
+		:global(body:has(#banner-cookies:not([hidden])) .float-wpp) {
+			bottom: 96px;
+		}
+	}
+</style>
