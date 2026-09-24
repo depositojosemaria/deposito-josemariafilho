@@ -32,6 +32,8 @@ const site = defineCollection({
 		copyright: z.string(),
 		creditos: z.string(),
 		cnpj: z.string(),
+		razaoSocial: z.string(),
+		enderecoSede: z.string(),
 		gtmId: z.string(),
 	}),
 });

@@ -46,6 +46,7 @@ export async function organizationSchema(site: CollectionEntry<'site'>): Promise
 		'@type': 'Organization',
 		'@id': ORGANIZACAO_ID,
 		name: site.data.nome,
+		legalName: site.data.razaoSocial,
 		url: `${SITE}/`,
 		logo: urlAbsoluta(logo.src),
 		email: site.data.email,
