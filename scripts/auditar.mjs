@@ -4,6 +4,7 @@ import path from 'node:path';
 const raiz = path.resolve('dist');
 const origem = 'https://depositojosemariafilho.com.br';
 const marcadores = ['[PENDENTE', 'TODO', 'COLE_A_CHAVE', 'lorem'];
+const marcadorColchetes = /\[[A-ZÀ-Ú][A-ZÀ-Ú ]{2,}\]/g;
 
 function listar(dir, filtro) {
 	const achados = [];
@@ -130,6 +131,9 @@ for (const arquivo of paginas) {
 	const visivel = textoVisivel(html);
 	for (const marca of marcadores) {
 		if (visivel.includes(marca)) marcadoresAchados.push(`${rel}: contém “${marca}”`);
+	}
+	for (const achado of visivel.matchAll(marcadorColchetes)) {
+		marcadoresAchados.push(`${rel}: contém “${achado[0]}”`);
 	}
 
 	const robots = html.match(/<meta\s+name=["']robots["']\s+content=["']([^"']*)["']/i)?.[1] ?? '';
