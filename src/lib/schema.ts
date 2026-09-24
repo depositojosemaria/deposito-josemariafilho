@@ -49,6 +49,7 @@ export async function organizationSchema(site: CollectionEntry<'site'>): Promise
 		url: `${SITE}/`,
 		logo: urlAbsoluta(logo.src),
 		email: site.data.email,
+		taxID: site.data.cnpj,
 		sameAs: [site.data.instagram, site.data.facebook],
 	};
 }

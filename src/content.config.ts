@@ -31,6 +31,7 @@ const site = defineCollection({
 		textoRodape: z.string(),
 		copyright: z.string(),
 		creditos: z.string(),
+		cnpj: z.string(),
 	}),
 });
 
