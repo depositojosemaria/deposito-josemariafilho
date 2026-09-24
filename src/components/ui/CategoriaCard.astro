@@ -1,0 +1,199 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	categoria: CollectionEntry<'categorias'>;
+	nivel?: 'h2' | 'h3';
+}
+
+const { categoria, nivel = 'h3' } = Astro.props;
+const Titulo = nivel;
+---
+
+<li class="produto-card">
+	<div class="produto-header">
+		<div class="produto-icon">
+			<Image
+				src={categoria.data.icone}
+				alt=""
+				width={88}
+				height={88}
+				format="webp"
+				quality="mid"
+				loading="lazy"
+				decoding="async"
+			/>
+		</div>
+		<Titulo class="produto-nome">
+			<a href={`/produtos/${categoria.id}/`}>{categoria.data.nome}</a>
+		</Titulo>
+	</div>
+	<div class="produto-body">
+		<ul class="produto-items">
+			{categoria.data.itens.map((item) => <li>{item}</li>)}
+		</ul>
+		{categoria.data.selo && <span class="produto-badge">{categoria.data.selo}</span>}
+	</div>
+</li>
+
+<style>
+	.produto-card {
+		position: relative;
+		overflow: hidden;
+		border: 1px solid var(--color-card-border);
+		border-radius: var(--radius-card);
+		background: var(--color-white);
+		box-shadow: var(--shadow-card);
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.produto-card:hover {
+		box-shadow: var(--shadow-product-hover);
+		transform: translateY(-6px);
+	}
+
+	.produto-card:has(a:focus-visible) {
+		outline: 3px solid var(--color-brand);
+		outline-offset: 4px;
+	}
+
+	.produto-header {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		padding: 18px 8px 14px;
+		background: var(--color-brand);
+		text-align: center;
+	}
+
+	.produto-icon {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		width: 58px;
+		height: 58px;
+		padding: 11px;
+		border-radius: var(--radius-product-icon-compact);
+		background: rgba(255, 255, 255, 0.18);
+	}
+
+	.produto-icon :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		filter: brightness(0) invert(1);
+	}
+
+	.produto-nome {
+		margin: 0;
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: var(--text-product-title-compact);
+		font-weight: var(--font-weight-bold);
+		line-height: 1.3;
+	}
+
+	.produto-nome a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.produto-nome a::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+	}
+
+	.produto-nome a:focus-visible {
+		outline: none;
+	}
+
+	.produto-body {
+		padding: 12px 10px;
+		background: var(--color-white);
+	}
+
+	.produto-items {
+		margin: 0;
+		padding: 0;
+		color: var(--color-muted);
+		font-size: var(--text-product-item-compact);
+		list-style: none;
+	}
+
+	.produto-items li {
+		display: flex;
+		align-items: flex-start;
+		gap: 5px;
+		padding: 4px 0;
+		line-height: 1.35;
+	}
+
+	.produto-items li::before {
+		content: '';
+		flex-shrink: 0;
+		width: 5px;
+		height: 5px;
+		margin-top: 0.42em;
+		border-radius: var(--radius-circle);
+		background: var(--color-brand);
+	}
+
+	.produto-badge {
+		display: inline-block;
+		margin-top: 10px;
+		padding: 3px 7px;
+		border-radius: var(--radius-pill);
+		background: var(--color-badge);
+		color: var(--color-badge-ink);
+		font-size: var(--text-product-badge-compact);
+		font-weight: var(--font-weight-bold);
+	}
+
+	@media (min-width: 501px) {
+		.produto-header {
+			gap: 14px;
+			padding: var(--spacing-product-header-top) var(--spacing-product-header-x)
+				var(--spacing-product-header-bottom);
+		}
+
+		.produto-icon {
+			width: 88px;
+			height: 88px;
+			padding: 16px;
+			border-radius: var(--radius-product-icon);
+		}
+
+		.produto-nome {
+			font-size: var(--text-product-title);
+		}
+
+		.produto-body {
+			padding: var(--spacing-product-body-y) var(--spacing-product-body-x);
+		}
+
+		.produto-items {
+			font-size: var(--text-product-item);
+		}
+
+		.produto-items li {
+			align-items: center;
+			gap: 6px;
+			line-height: inherit;
+		}
+
+		.produto-items li::before {
+			width: 6px;
+			height: 6px;
+			margin-top: 0;
+		}
+
+		.produto-badge {
+			padding: 4px 10px;
+			font-size: var(--text-product-badge);
+		}
+	}
+</style>

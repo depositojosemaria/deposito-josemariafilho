@@ -1,0 +1,135 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import CategoriaCard from '../../components/ui/CategoriaCard.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { linkWhatsApp } from '../../lib/format';
+
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+
+const categorias = [...(await getCollection('categorias'))].sort((a, b) => a.data.ordem - b.data.ordem);
+const migalhas = [
+	{ nome: 'Início', url: '/' },
+	{ nome: 'Produtos', url: '/produtos/' },
+];
+const whatsapp = linkWhatsApp(site.data.whatsapp, 'Olá, vim pelo site e quero fazer um orçamento.');
+const descricao =
+	'Materiais básicos, ferragens, elétrica, hidráulica, pisos, tintas, gabinetes, banheiro e iluminação no Depósito José Maria Filho, em Poá e Suzano.';
+---
+
+<BaseLayout title="Produtos: Pisos, Elétrica, Hidráulica e Mais | José Maria Filho" description={descricao}>
+	<div class="pagina">
+		<div class="container">
+			<Breadcrumb itens={migalhas} />
+			<header class="intro">
+				<h1>Nossos <span>Produtos</span></h1>
+				<p>Tudo que você precisa para construir, reformar e acabar com qualidade</p>
+			</header>
+			<ul class="produtos-grid">
+				{categorias.map((categoria) => <CategoriaCard categoria={categoria} nivel="h2" />)}
+			</ul>
+			<div class="cta">
+				<a class="btn-whatsapp" href={whatsapp} target="_blank" rel="noopener">
+					<Icon nome="whatsapp" tamanho={20} />
+					{site.data.ctaWhatsapp}
+				</a>
+			</div>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.pagina {
+		background: var(--color-white);
+		padding: var(--spacing-section) 0;
+	}
+
+	.container {
+		max-width: var(--container-page);
+		margin: 0 auto;
+		padding: 0 var(--spacing-container-x);
+	}
+
+	.intro {
+		text-align: center;
+	}
+
+	h1 {
+		margin: 0 0 var(--spacing-title);
+		color: var(--color-ink);
+		font-family: var(--font-display);
+		font-size: var(--text-section-title);
+		font-weight: var(--font-weight-extrabold);
+		line-height: var(--leading-heading);
+	}
+
+	h1 span {
+		color: var(--color-brand);
+	}
+
+	.intro p {
+		margin: 0 0 var(--spacing-subtitle);
+		color: var(--color-muted);
+		font-size: var(--text-section-subtitle);
+	}
+
+	.produtos-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--spacing-products-gap-compact);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.cta {
+		display: flex;
+		justify-content: center;
+		margin-top: 22px;
+	}
+
+	.btn-whatsapp {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		width: 100%;
+		max-width: 320px;
+		padding: 12px 18px;
+		border-radius: var(--radius-pill);
+		background: var(--color-whatsapp);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: var(--text-offers-cta-compact);
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.btn-whatsapp:hover {
+		background: var(--color-whatsapp-dark);
+	}
+
+	@media (min-width: 501px) {
+		.produtos-grid {
+			gap: var(--spacing-products-gap);
+		}
+	}
+
+	@media (min-width: 901px) {
+		.produtos-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.btn-whatsapp {
+			width: auto;
+			max-width: none;
+			padding: 13px 26px;
+			font-size: var(--text-btn);
+		}
+	}
+</style>

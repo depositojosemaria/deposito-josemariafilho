@@ -1,0 +1,342 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, getEntries, getEntry, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { linkWhatsApp } from '../../lib/format';
+
+interface Props {
+	categoria: CollectionEntry<'categorias'>;
+}
+
+export async function getStaticPaths() {
+	const categorias = await getCollection('categorias');
+	return categorias.map((categoria) => ({
+		params: { id: categoria.id },
+		props: { categoria },
+	}));
+}
+
+function descricaoCategoria(nome: string, itens: string[]) {
+	const sufixoCheio = 'Lojas em Poá e Suzano. Peça seu orçamento pelo WhatsApp.';
+	const sufixoCurto = 'Lojas em Poá e Suzano. Peça orçamento pelo WhatsApp.';
+	const montar = (lista: string[], sufixo: string) =>
+		`${nome} no Depósito José Maria Filho: ${lista.join(', ')}. ${sufixo}`;
+
+	for (const quantidade of [3, 2, 1]) {
+		const lista = itens.slice(0, quantidade);
+		const cheia = montar(lista, sufixoCheio);
+		if (cheia.length <= 155) return cheia;
+		const curta = montar(lista, sufixoCurto);
+		if (curta.length <= 155) return curta;
+	}
+
+	const minima = `${nome} no Depósito José Maria Filho. ${sufixoCheio}`;
+	return minima.length <= 155 ? minima : `${nome} no Depósito José Maria Filho. ${sufixoCurto}`;
+}
+
+const { categoria } = Astro.props;
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+
+const { data } = categoria;
+const unidades = [...(await getCollection('unidades'))].sort((a, b) => a.data.ordem - b.data.ordem);
+const outras = [...(await getCollection('categorias'))]
+	.filter((item) => item.id !== categoria.id)
+	.sort((a, b) => a.data.ordem - b.data.ordem);
+const marcas = data.marcas?.length ? await getEntries(data.marcas) : [];
+const corpo = categoria.body?.trim() ?? '';
+const Conteudo = corpo ? (await render(categoria)).Content : undefined;
+
+const titulo = data.seoTitle ?? `${data.nome} em Poá e Suzano | José Maria Filho`;
+const descricao = data.seoDescription ?? descricaoCategoria(data.nome, data.itens);
+const whatsapp = linkWhatsApp(site.data.whatsapp, `Olá, vim pelo site e quero um orçamento de ${data.nome}.`);
+const migalhas = [
+	{ nome: 'Início', url: '/' },
+	{ nome: 'Produtos', url: '/produtos/' },
+	{ nome: data.nome, url: `/produtos/${categoria.id}/` },
+];
+---
+
+<BaseLayout title={titulo} description={descricao} noindex={!data.indexar}>
+	<article class="pagina">
+		<div class="container">
+			<Breadcrumb itens={migalhas} />
+			<h1>{data.nome} em Poá e Suzano</h1>
+			<section class="encontra" aria-labelledby="encontra-titulo">
+				<div class="icone">
+					<Image
+						src={data.icone}
+						alt=""
+						width={88}
+						height={88}
+						format="webp"
+						quality="mid"
+						loading="lazy"
+						decoding="async"
+					/>
+				</div>
+				{data.selo && <p class="selo">{data.selo}</p>}
+				<h2 id="encontra-titulo">O que você encontra</h2>
+				<ul class="itens">
+					{data.itens.map((item) => <li>{item}</li>)}
+				</ul>
+			</section>
+			{Conteudo && (
+				<div class="texto">
+					<Conteudo />
+				</div>
+			)}
+			{
+				marcas.length > 0 && (
+					<section class="marcas" aria-labelledby="marcas-titulo">
+						<h2 id="marcas-titulo">Marcas</h2>
+						<ul>
+							{marcas.map((marca) => (
+								<li>
+									<Image
+										src={marca.data.logo}
+										alt={marca.data.nome}
+										width={marca.data.logo.width}
+										height={marca.data.logo.height}
+										format="webp"
+										quality="mid"
+										loading="lazy"
+										decoding="async"
+									/>
+								</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
+			<div class="cta">
+				<a class="btn-whatsapp" href={whatsapp} target="_blank" rel="noopener">
+					<Icon nome="whatsapp" tamanho={20} />
+					{site.data.ctaWhatsapp}
+				</a>
+			</div>
+			<section aria-labelledby="onde-comprar">
+				<h2 id="onde-comprar">Onde comprar</h2>
+				<ul class="links">
+					{
+						unidades.map((unidade) => (
+							<li>
+								<a href={`/unidades/${unidade.id}/`}>{unidade.data.nome}</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+			<section aria-labelledby="outras-categorias">
+				<h2 id="outras-categorias">Outras categorias</h2>
+				<ul class="links">
+					{
+						outras.map((item) => (
+							<li>
+								<a href={`/produtos/${item.id}/`}>{item.data.nome}</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</div>
+	</article>
+</BaseLayout>
+
+<style>
+	.pagina {
+		background: var(--color-white);
+		padding: var(--spacing-section) 0;
+		color: var(--color-ink);
+	}
+
+	.container {
+		max-width: var(--container-page);
+		margin: 0 auto;
+		padding: 0 var(--spacing-container-x);
+	}
+
+	h1,
+	h2 {
+		margin: 0 0 var(--spacing-title);
+		font-family: var(--font-display);
+		font-weight: var(--font-weight-extrabold);
+		line-height: var(--leading-heading);
+	}
+
+	h1 {
+		font-size: var(--text-section-title);
+	}
+
+	h2 {
+		font-size: 1.35rem;
+	}
+
+	.encontra,
+	.marcas,
+	.texto {
+		margin-top: 28px;
+	}
+
+	section + section,
+	.cta + section {
+		margin-top: 40px;
+	}
+
+	.icone {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 88px;
+		height: 88px;
+		margin-bottom: 16px;
+		padding: 16px;
+		border-radius: var(--radius-product-icon);
+		background: var(--color-brand);
+	}
+
+	.icone :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		filter: brightness(0) invert(1);
+	}
+
+	.selo {
+		display: inline-block;
+		margin: 0 0 16px;
+		padding: 4px 10px;
+		border-radius: var(--radius-pill);
+		background: var(--color-badge);
+		color: var(--color-badge-ink);
+		font-size: var(--text-product-badge);
+		font-weight: var(--font-weight-bold);
+	}
+
+	.itens,
+	.links,
+	.marcas ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.itens li {
+		display: flex;
+		align-items: flex-start;
+		gap: 8px;
+		padding: 6px 0;
+		color: var(--color-muted);
+		line-height: 1.4;
+	}
+
+	.itens li::before {
+		content: '';
+		flex-shrink: 0;
+		width: 6px;
+		height: 6px;
+		margin-top: 0.45em;
+		border-radius: var(--radius-circle);
+		background: var(--color-brand);
+	}
+
+	.texto :global(p),
+	.texto :global(li) {
+		line-height: 1.7;
+	}
+
+	.marcas ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		align-items: center;
+	}
+
+	.marcas li {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 140px;
+		height: 72px;
+		padding: 8px;
+		border: 1px solid var(--color-card-border);
+		border-radius: var(--radius-card);
+		background: var(--color-white);
+	}
+
+	.marcas :global(img) {
+		max-width: 100%;
+		max-height: 56px;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+	}
+
+	.cta {
+		display: flex;
+		margin-top: 28px;
+	}
+
+	.btn-whatsapp {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		width: 100%;
+		max-width: 320px;
+		padding: 12px 18px;
+		border-radius: var(--radius-pill);
+		background: var(--color-whatsapp);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: var(--text-offers-cta-compact);
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+	}
+
+	.btn-whatsapp:hover {
+		background: var(--color-whatsapp-dark);
+	}
+
+	.links {
+		display: grid;
+		gap: 10px;
+	}
+
+	.links a {
+		display: block;
+		padding: 14px 16px;
+		border: 1px solid var(--color-card-border);
+		border-radius: var(--radius-card);
+		background: var(--color-surface);
+		color: var(--color-ink);
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+	}
+
+	.links a:hover {
+		color: var(--color-brand);
+	}
+
+	a:focus-visible {
+		outline: 3px solid var(--color-brand);
+		outline-offset: 3px;
+	}
+
+	@media (min-width: 701px) {
+		.links {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.btn-whatsapp {
+			width: auto;
+			max-width: none;
+			padding: 13px 26px;
+			font-size: var(--text-btn);
+		}
+	}
+</style>

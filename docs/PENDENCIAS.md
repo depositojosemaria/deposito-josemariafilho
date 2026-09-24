@@ -49,8 +49,23 @@ O que não está em `docs/REFERENCIA.md` não foi inventado. Os JSON em `src/con
 - Fotos internas.
 - Especialidades de cada loja.
 
+## Conteúdo das categorias (para ativar indexar: true)
+
+Para cada categoria abaixo, faltam: marcas trabalhadas, produtos mais procurados, diferenciais (entrega, corte, mistura de tintas e outros que a loja realmente ofereça) e fotos reais. Enquanto isso, `indexar` fica `false`.
+
+- Materiais Básicos
+- Ferragens e Ferramentas
+- Elétrica
+- Hidráulica
+- Pisos e Revestimentos
+- Tintas e Impermeabilizantes
+- Gabinetes de Cozinha
+- Banheiro e Louças
+- Iluminação
+
 ## Política de privacidade
 
+- Resolver todos os [PENDENTE] da Política de Privacidade antes do deploy.
 - Revisão da Política de Privacidade pelo cliente (contador/advogado).
 - [PENDENTE: razão social]. Não há razão social em `docs/REFERENCIA.md` nem em `site.json`. O nome usado no site é `Depósito José Maria Filho`.
 - [PENDENTE: endereço da sede]. Não há endereço de sede nesses arquivos. Os endereços existentes são os das três lojas.
