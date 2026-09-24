@@ -6,7 +6,6 @@ O que não está em `docs/REFERENCIA.md` não foi inventado. Os JSON em `src/con
 
 - **Loja 1, telefone.** O card, o header, o hero e o rodapé mostram o fixo `(11) 4636-8547`. O botão “WhatsApp desta unidade”, o WhatsApp geral e a arte do banner 2 usam `(11) 98319-0553` (`5511983190553`). Em `unidades.json`, `telefone` é o fixo do card e `whatsapp` é o número do botão.
 - **Loja 2, WhatsApp.** O botão aponta para `wa.me/551147474920`, o mesmo fixo `(11) 4747-4920`. O JSON guarda esse número.
-- **Av. × Rua.** O card da Loja 1 diz `Av. Águas da Prata, 1107`. O link “Criar Rota” manda `Rua Águas da Prata 1107 Poá SP`. A arte do banner 2 diz `AV. ÁGUAS DA PRATA, 1.107`. O JSON usa o logradouro do card e preserva a URL de rota original.
 - **Horários das 3 lojas.** Ausentes no HTML, no CSS e no rodapé. O campo `horario` não foi preenchido.
 - **4ª loja citada no Instagram.** `docs/REFERENCIA.md` registra que o HTML, o hero e as meta tags falam em 3 unidades e que não há uma quarta unidade na página salva. Não há nome, endereço nem telefone dessa loja no documento. Nenhuma unidade extra foi criada.
 - **CEPs.** Ausentes. O campo `cep` não foi preenchido.
@@ -22,7 +21,6 @@ O que não está em `docs/REFERENCIA.md` não foi inventado. Os JSON em `src/con
 
 ## Depoimentos
 
-- As datas estão copiadas como no site: `um ano atrás`, `3 semanas atrás`, `4 meses atrás`. São relativas ao dia em que a página foi salva e vão ficar desatualizadas.
 - Os cinco textos não dizem de qual unidade são. O botão “Ver todas as avaliações no Google” abre o mesmo `share.google` da Loja 1.
 - Ortografia original mantida: `Melhor que muitos por ai`, `Ótimo atendimento,` (com vírgula no fim), `Jonatas Abrao`, `Jurisbalino Da Silva`.
 
@@ -65,10 +63,7 @@ Para cada categoria abaixo, faltam: marcas trabalhadas, produtos mais procurados
 
 ## Política de privacidade
 
-- Resolver todos os [PENDENTE] da Política de Privacidade antes do deploy.
 - Revisão da Política de Privacidade pelo cliente (contador/advogado).
-- [PENDENTE: razão social]. Não há razão social em `docs/REFERENCIA.md` nem em `site.json`. O nome usado no site é `Depósito José Maria Filho`.
-- [PENDENTE: endereço da sede]. Não há endereço de sede nesses arquivos. Os endereços existentes são os das três lojas.
 
 ## GTM (configurar no painel do Google Tag Manager)
 
