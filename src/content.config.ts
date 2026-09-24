@@ -1,5 +1,5 @@
-import { defineCollection } from 'astro:content';
-import { file } from 'astro/loaders';
+import { defineCollection, reference } from 'astro:content';
+import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const site = defineCollection({
@@ -61,7 +61,7 @@ const unidades = defineCollection({
 });
 
 const categorias = defineCollection({
-	loader: file('src/content/categorias.json'),
+	loader: glob({ pattern: '*.md', base: 'src/content/categorias' }),
 	schema: ({ image }) =>
 		z.object({
 			id: z.string(),
@@ -71,6 +71,10 @@ const categorias = defineCollection({
 			selo: z.string().optional(),
 			descricao: z.string().optional(),
 			ordem: z.number().int(),
+			indexar: z.boolean(),
+			marcas: z.array(reference('marcas')).optional(),
+			seoTitle: z.string().optional(),
+			seoDescription: z.string().optional(),
 		}),
 });
 
