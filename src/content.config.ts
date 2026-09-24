@@ -55,6 +55,7 @@ const unidades = defineCollection({
 			latitude: z.number().optional(),
 			longitude: z.number().optional(),
 			imagem: image(),
+			alt: z.string(),
 			ordem: z.number().int(),
 		}),
 });

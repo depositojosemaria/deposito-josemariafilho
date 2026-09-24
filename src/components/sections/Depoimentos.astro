@@ -1,0 +1,312 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Carrossel from '../ui/Carrossel.astro';
+
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+
+const depoimentos = [...(await getCollection('depoimentos'))].sort(
+	(a, b) => a.data.ordem - b.data.ordem,
+);
+const unidades = [...(await getCollection('unidades'))].sort((a, b) => a.data.ordem - b.data.ordem);
+const linkAvaliacoes = unidades[0]?.data.mapsUrl;
+
+const avatarPorId: Record<string, string> = {
+	'ronaldo-marinho-cabral': 'avatar-ronaldo',
+	'jurisbalino-da-silva': 'avatar-jurisbalino',
+	'fabio-mendes': 'avatar-fabio',
+	'helio-venegeroles': 'avatar-helio',
+	'jonatas-abrao': 'avatar-jonatas',
+};
+
+const avatares = [
+	'avatar-ronaldo',
+	'avatar-jurisbalino',
+	'avatar-fabio',
+	'avatar-helio',
+	'avatar-jonatas',
+];
+
+function classeAvatar(id: string, indice: number) {
+	return avatarPorId[id] ?? avatares[indice % avatares.length];
+}
+
+function inicial(nome: string) {
+	return nome.trim().charAt(0).toLocaleUpperCase('pt-BR');
+}
+---
+
+<section class="depoimentos" id="depoimentos">
+	<div class="container">
+		<div class="intro">
+			<h2>O que nossos <span>Clientes</span> Dizem</h2>
+			<p>Avaliações verificadas no Google</p>
+		</div>
+	</div>
+	<Carrossel duracao="45s">
+		{
+			[false, true].map((copia) => (
+				<ul class:list={['carrossel-grupo', { 'carrossel-copia': copia }]} aria-hidden={copia ? true : undefined}>
+					{depoimentos.map((item, indice) => (
+						<li class="depoimento-card">
+							<div class="depoimento-topo">
+								<span class:list={['depoimento-avatar', classeAvatar(item.id, indice)]} aria-hidden="true">
+									{inicial(item.data.autor)}
+								</span>
+								<div class="depoimento-autor">
+									<p class="depoimento-nome">{item.data.autor}</p>
+									<p class="depoimento-data">{item.data.dataOriginal}</p>
+								</div>
+								<svg class="google-logo" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24">
+									<path
+										d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+										fill="#4285F4"
+									/>
+									<path
+										d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+										fill="#34A853"
+									/>
+									<path
+										d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+										fill="#FBBC05"
+									/>
+									<path
+										d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+										fill="#EA4335"
+									/>
+								</svg>
+							</div>
+							<p class="depoimento-estrelas">
+								<span class="sr-only">Nota {item.data.nota} de 5</span>
+								{Array.from({ length: 5 }, (_, estrela) => (
+									<svg
+										class:list={{ vazia: estrela >= item.data.nota }}
+										aria-hidden="true"
+										width="18"
+										height="18"
+										viewBox="0 0 24 24"
+									>
+										<path
+											fill="currentColor"
+											d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+										/>
+									</svg>
+								))}
+							</p>
+							<blockquote>
+								<p>{item.data.texto}</p>
+							</blockquote>
+						</li>
+					))}
+				</ul>
+			))
+		}
+	</Carrossel>
+	{
+		linkAvaliacoes && (
+			<div class="container">
+				<div class="avaliacoes">
+					<a href={linkAvaliacoes} target="_blank" rel="noopener">
+						<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24">
+							<path
+								d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+								fill="#4285F4"
+							/>
+							<path
+								d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+								fill="#34A853"
+							/>
+							<path
+								d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+								fill="#FBBC05"
+							/>
+							<path
+								d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+								fill="#EA4335"
+							/>
+						</svg>
+						{site.data.ctaAvaliacoes}
+					</a>
+				</div>
+			</div>
+		)
+	}
+</section>
+
+<style>
+	.depoimentos {
+		background: var(--color-surface);
+		padding: var(--spacing-section) 0;
+	}
+
+	.container {
+		max-width: var(--container-page);
+		margin: 0 auto;
+		padding: 0 var(--spacing-container-x);
+	}
+
+	.intro {
+		text-align: center;
+	}
+
+	h2 {
+		margin: 0 0 var(--spacing-title);
+		color: var(--color-ink);
+		font-family: var(--font-display);
+		font-size: var(--text-section-title);
+		font-weight: var(--font-weight-extrabold);
+		line-height: var(--leading-heading);
+	}
+
+	h2 span {
+		color: var(--color-brand);
+	}
+
+	.intro p {
+		margin: 0 0 var(--spacing-subtitle);
+		color: var(--color-muted);
+		font-size: var(--text-section-subtitle);
+	}
+
+	.depoimento-card {
+		display: flex;
+		flex-shrink: 0;
+		flex-direction: column;
+		width: min(340px, calc(100vw - 48px));
+		min-width: min(300px, calc(100vw - 48px));
+		max-width: var(--width-review-max);
+		padding: var(--spacing-review-card);
+		border: 1px solid var(--color-card-border);
+		border-radius: var(--radius-card);
+		background: var(--color-white);
+		box-shadow: var(--shadow-card);
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.depoimento-card:hover {
+		box-shadow: var(--shadow-review-hover);
+		transform: translateY(-4px);
+	}
+
+	.depoimento-topo {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 12px;
+	}
+
+	.depoimento-avatar {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		border-radius: var(--radius-circle);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: var(--text-review-avatar);
+		font-weight: var(--font-weight-extrabold);
+	}
+
+	.avatar-ronaldo {
+		background: var(--color-avatar-ronaldo);
+	}
+
+	.avatar-jurisbalino {
+		background: var(--color-avatar-jurisbalino);
+	}
+
+	.avatar-fabio {
+		background: var(--color-avatar-fabio);
+	}
+
+	.avatar-helio {
+		background: var(--color-avatar-helio);
+	}
+
+	.avatar-jonatas {
+		background: var(--color-avatar-jonatas);
+	}
+
+	.depoimento-autor {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.depoimento-nome {
+		margin: 0;
+		color: var(--color-ink);
+		font-size: var(--text-review-name);
+		font-weight: var(--font-weight-bold);
+	}
+
+	.depoimento-data {
+		margin: 0;
+		color: var(--color-muted);
+		font-size: var(--text-review-date);
+	}
+
+	.google-logo {
+		flex-shrink: 0;
+	}
+
+	.depoimento-estrelas {
+		display: flex;
+		gap: 2px;
+		margin: 0 0 10px;
+		color: var(--color-star);
+		font-size: var(--text-review-stars);
+		letter-spacing: var(--tracking-stars);
+	}
+
+	.depoimento-estrelas .vazia {
+		color: var(--color-line);
+	}
+
+	blockquote {
+		margin: 0;
+	}
+
+	blockquote p {
+		margin: 0;
+		color: var(--color-review);
+		font-size: var(--text-review-body);
+		line-height: 1.65;
+	}
+
+	.avaliacoes {
+		margin-top: var(--spacing-reviews-button);
+		text-align: center;
+	}
+
+	.avaliacoes a {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 13px 28px;
+		border: 2px solid var(--color-review-button-border);
+		border-radius: var(--radius-pill);
+		background: var(--color-white);
+		color: var(--color-ink);
+		font-family: var(--font-display);
+		font-size: var(--text-reviews-button);
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.avaliacoes a:hover {
+		border-color: var(--color-brand);
+		color: var(--color-brand);
+	}
+
+	@media (min-width: 701px) {
+		.depoimento-card {
+			width: 340px;
+			min-width: var(--width-review-min);
+		}
+	}
+</style>

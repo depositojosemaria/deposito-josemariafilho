@@ -2,8 +2,11 @@
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Banners from '../components/sections/Banners.astro';
+import Depoimentos from '../components/sections/Depoimentos.astro';
 import Diferenciais from '../components/sections/Diferenciais.astro';
 import Hero from '../components/sections/Hero.astro';
+import Marcas from '../components/sections/Marcas.astro';
+import Unidades from '../components/sections/Unidades.astro';
 import { lojaSchema, organizationSchema, websiteSchema } from '../lib/schema';
 
 const site = await getEntry('site', 'geral');
@@ -29,4 +32,7 @@ const jsonLd = [await organizationSchema(site), websiteSchema(site), ...lojas];
 	<Hero />
 	<Banners />
 	<Diferenciais />
+	<Unidades />
+	<Marcas />
+	<Depoimentos />
 </BaseLayout>

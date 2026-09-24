@@ -1,0 +1,208 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const marcas = [...(await getCollection('marcas'))].sort((a, b) => a.data.ordem - b.data.ordem);
+
+const alturaMax = 44;
+const larguraMax = 120;
+
+function tamanhoLogo(largura: number, altura: number) {
+	const proporcao = largura / altura;
+	let larguraFinal = Math.round(alturaMax * proporcao);
+	let alturaFinal = alturaMax;
+	if (larguraFinal > larguraMax) {
+		larguraFinal = larguraMax;
+		alturaFinal = Math.max(1, Math.round(larguraMax / proporcao));
+	}
+	return { largura: larguraFinal, altura: alturaFinal };
+}
+---
+
+<section class="marcas" id="marcas">
+	<div class="container">
+		<div class="intro">
+			<h2>Trabalhamos com as Melhores <span>Marcas</span></h2>
+			<p>Parceiros líderes que garantem qualidade em cada produto</p>
+		</div>
+	</div>
+	<div class="marcas-viewport">
+		<div class="marcas-trilho">
+			{
+				[false, true].map((copia) => (
+					<ul class:list={['marcas-grupo', { 'marcas-copia': copia }]} aria-hidden={copia ? true : undefined}>
+						{marcas.map((marca) => {
+							const tamanho = tamanhoLogo(marca.data.logo.width, marca.data.logo.height);
+							return (
+								<li>
+									<Image
+										src={marca.data.logo}
+										alt={copia ? '' : marca.data.nome}
+										width={tamanho.largura}
+										height={tamanho.altura}
+										format="webp"
+										quality="mid"
+										loading="lazy"
+										decoding="async"
+									/>
+								</li>
+							);
+						})}
+					</ul>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.marcas {
+		background: var(--color-white);
+		padding: var(--spacing-partners) 0;
+	}
+
+	.container {
+		max-width: var(--container-page);
+		margin: 0 auto;
+		padding: 0 var(--spacing-container-x);
+	}
+
+	.intro {
+		text-align: center;
+	}
+
+	h2 {
+		margin: 0 0 var(--spacing-title);
+		color: var(--color-ink);
+		font-family: var(--font-display);
+		font-size: var(--text-section-title);
+		font-weight: var(--font-weight-extrabold);
+		line-height: var(--leading-heading);
+	}
+
+	h2 span {
+		color: var(--color-brand);
+	}
+
+	.intro p {
+		margin: 0 0 var(--spacing-subtitle);
+		color: var(--color-muted);
+		font-size: var(--text-section-subtitle);
+	}
+
+	.marcas-viewport {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.marcas-viewport::before,
+	.marcas-viewport::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		z-index: 2;
+		width: 80px;
+		pointer-events: none;
+	}
+
+	.marcas-viewport::before {
+		left: 0;
+		background: linear-gradient(to right, var(--color-white), transparent);
+	}
+
+	.marcas-viewport::after {
+		right: 0;
+		background: linear-gradient(to left, var(--color-white), transparent);
+	}
+
+	.marcas-trilho {
+		display: flex;
+		align-items: center;
+		width: max-content;
+		animation: marcas-rolar 38s linear infinite;
+	}
+
+	.marcas-trilho:hover,
+	.marcas-trilho:focus-within {
+		animation-play-state: paused;
+	}
+
+	.marcas-grupo {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-partners-gap);
+		margin: 0;
+		padding: 0 var(--spacing-partners-gap) 0 0;
+		list-style: none;
+	}
+
+	.marcas-grupo li {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		padding: var(--spacing-partner-y) var(--spacing-partner-x);
+		border-radius: var(--radius-chip);
+		background: var(--color-surface);
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.marcas-grupo li:hover {
+		box-shadow: var(--shadow-card);
+		transform: translateY(-2px);
+	}
+
+	.marcas-grupo :global(img) {
+		width: auto;
+		max-width: 120px;
+		height: 44px;
+		object-fit: contain;
+		filter: grayscale(20%);
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.marcas-grupo li:hover :global(img) {
+		filter: grayscale(0%);
+	}
+
+	@keyframes marcas-rolar {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.marcas-viewport {
+			overflow: visible;
+			max-width: var(--container-page);
+			margin-inline: auto;
+			padding-inline: var(--spacing-container-x);
+		}
+
+		.marcas-viewport::before,
+		.marcas-viewport::after {
+			content: none;
+		}
+
+		.marcas-trilho {
+			flex-wrap: wrap;
+			justify-content: center;
+			width: auto;
+			animation: none !important;
+		}
+
+		.marcas-copia {
+			display: none;
+		}
+
+		.marcas-grupo {
+			flex-wrap: wrap;
+			justify-content: center;
+			padding-right: 0;
+		}
+	}
+</style>
