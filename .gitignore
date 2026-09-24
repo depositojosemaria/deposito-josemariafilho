@@ -12,6 +12,9 @@ node_modules/
 # referência local do site atual (não versionar)
 _referencia/
 
+# lighthouse local
+lighthouse-*.json
+
 # logs
 npm-debug.log*
 yarn-debug.log*
