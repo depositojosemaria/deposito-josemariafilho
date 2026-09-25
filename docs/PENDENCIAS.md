@@ -61,6 +61,18 @@ Para cada categoria abaixo, faltam: marcas trabalhadas, produtos mais procurados
 - Banheiro e Louças
 - Iluminação
 
+## Página Sobre (para ativar indexar: true)
+
+Enquanto as respostas abaixo não estiverem em `src/content/paginas/sobre.md`, `indexar` fica `false`. Ano de fundação, fundador, história, número de funcionários e datas de abertura das lojas só entram na página se estiverem escritos nesse arquivo.
+
+- Qual é o ano de fundação e o da primeira loja?
+- Quem é o fundador e ele ainda está à frente?
+- Qual é o resumo da história?
+- Qual é o ano de abertura de cada loja?
+- Quais são os diferenciais reais?
+- É empresa familiar e quantas pessoas trabalham?
+- Há fotos antigas, do fundador ou da equipe?
+
 ## Política de privacidade
 
 - Revisão da Política de Privacidade pelo cliente (contador/advogado).

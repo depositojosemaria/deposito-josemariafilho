@@ -128,6 +128,18 @@ const marcas = defineCollection({
 		}),
 });
 
+const paginas = defineCollection({
+	loader: glob({ pattern: '*.md', base: 'src/content/paginas' }),
+	schema: z.object({
+		titulo: z.string(),
+		seoTitle: z.string().optional(),
+		seoDescription: z.string().optional(),
+		indexar: z.boolean().default(false),
+		fundacao: z.number().int().optional(),
+		fundador: z.string().optional(),
+	}),
+});
+
 const depoimentos = defineCollection({
 	loader: file('src/content/depoimentos.json'),
 	schema: z.object({
@@ -148,5 +160,6 @@ export const collections = {
 	banners,
 	ofertas,
 	marcas,
+	paginas,
 	depoimentos,
 };

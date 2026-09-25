@@ -24,7 +24,15 @@ const lojas = await Promise.all(
 		.map((unidade) => lojaSchema(site, unidade)),
 );
 
-const jsonLd = [await organizationSchema(site), websiteSchema(site), ...lojas];
+const sobre = await getEntry('paginas', 'sobre');
+const jsonLd = [
+	await organizationSchema(site, {
+		fundacao: sobre?.data.fundacao,
+		fundador: sobre?.data.fundador,
+	}),
+	websiteSchema(site),
+	...lojas,
+];
 ---
 
 <BaseLayout
@@ -34,7 +42,7 @@ const jsonLd = [await organizationSchema(site), websiteSchema(site), ...lojas];
 >
 	<Hero />
 	<Banners />
-	<Diferenciais />
+	<Diferenciais linkExperiencia="/sobre/" />
 	<Produtos />
 	<Ofertas />
 	<Unidades />

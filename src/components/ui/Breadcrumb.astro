@@ -9,16 +9,19 @@ interface Item {
 
 interface Props {
 	itens: Item[];
+	jsonLd?: boolean;
 }
 
-const { itens } = Astro.props;
+const { itens, jsonLd = true } = Astro.props;
 const origem = Astro.site ?? new URL('https://depositojosemariafilho.com.br');
-const schema = breadcrumbSchema(
-	itens.map((item) => ({
-		nome: item.nome,
-		url: new URL(item.url, origem).href,
-	})),
-);
+const schema = jsonLd
+	? breadcrumbSchema(
+			itens.map((item) => ({
+				nome: item.nome,
+				url: new URL(item.url, origem).href,
+			})),
+		)
+	: undefined;
 ---
 
 <nav aria-label="Você está aqui">
@@ -36,7 +39,7 @@ const schema = breadcrumbSchema(
 		}
 	</ol>
 </nav>
-<JsonLd data={schema} />
+{schema && <JsonLd data={schema} />}
 
 <style>
 	ol {

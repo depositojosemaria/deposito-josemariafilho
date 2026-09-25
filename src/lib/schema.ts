@@ -34,14 +34,17 @@ function endereco(unidade: CollectionEntry<'unidades'>['data']): JsonLdNode {
 	return address;
 }
 
-export async function organizationSchema(site: CollectionEntry<'site'>): Promise<JsonLdNode> {
+export async function organizationSchema(
+	site: CollectionEntry<'site'>,
+	dados?: { fundacao?: number; fundador?: string },
+): Promise<JsonLdNode> {
 	const logo = await getImage({
 		src: logoHeader,
 		format: 'webp',
 		quality: 'mid',
 	});
 
-	return {
+	const organizacao: JsonLdNode = {
 		'@context': 'https://schema.org',
 		'@type': 'Organization',
 		'@id': ORGANIZACAO_ID,
@@ -52,6 +55,28 @@ export async function organizationSchema(site: CollectionEntry<'site'>): Promise
 		email: site.data.email,
 		taxID: site.data.cnpj,
 		sameAs: [site.data.instagram, site.data.facebook],
+	};
+
+	if (dados?.fundacao !== undefined) organizacao.foundingDate = String(dados.fundacao);
+	if (dados?.fundador) {
+		organizacao.founder = {
+			'@type': 'Person',
+			name: dados.fundador,
+		};
+	}
+
+	return organizacao;
+}
+
+export function aboutPageSchema(pagina: { titulo: string; descricao: string; url: string }): JsonLdNode {
+	return {
+		'@context': 'https://schema.org',
+		'@type': 'AboutPage',
+		name: pagina.titulo,
+		description: pagina.descricao,
+		url: pagina.url,
+		inLanguage: 'pt-BR',
+		about: { '@id': ORGANIZACAO_ID },
 	};
 }
 

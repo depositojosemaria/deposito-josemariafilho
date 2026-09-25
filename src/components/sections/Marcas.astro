@@ -2,10 +2,30 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
+interface Props {
+	titulo?: string;
+	destaque?: string;
+}
+
+const { titulo, destaque } = Astro.props;
+
 const marcas = [...(await getCollection('marcas'))].sort((a, b) => a.data.ordem - b.data.ordem);
 
 const alturaMax = 44;
 const larguraMax = 120;
+
+function comDestaque(texto: string, trecho?: string) {
+	if (!trecho) return { antes: texto, destaque: '', depois: '' };
+	const indice = texto.indexOf(trecho);
+	if (indice < 0) return { antes: texto, destaque: '', depois: '' };
+	return {
+		antes: texto.slice(0, indice),
+		destaque: trecho,
+		depois: texto.slice(indice + trecho.length),
+	};
+}
+
+const tituloPartes = titulo ? comDestaque(titulo, destaque) : undefined;
 
 function tamanhoLogo(largura: number, altura: number) {
 	const proporcao = largura / altura;
@@ -22,8 +42,22 @@ function tamanhoLogo(largura: number, altura: number) {
 <section class="marcas" id="marcas">
 	<div class="container">
 		<div class="intro">
-			<h2>Trabalhamos com as Melhores <span>Marcas</span></h2>
-			<p>Parceiros líderes que garantem qualidade em cada produto</p>
+			<h2>
+				{
+					tituloPartes ? (
+						<>
+							{tituloPartes.antes}
+							{tituloPartes.destaque && <span>{tituloPartes.destaque}</span>}
+							{tituloPartes.depois}
+						</>
+					) : (
+						<>
+							Trabalhamos com as Melhores <span>Marcas</span>
+						</>
+					)
+				}
+			</h2>
+			{!titulo && <p>Parceiros líderes que garantem qualidade em cada produto</p>}
 		</div>
 	</div>
 	<div class="marcas-viewport">

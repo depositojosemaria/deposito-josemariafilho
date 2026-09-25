@@ -1,0 +1,298 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+import CategoriaCard from '../components/ui/CategoriaCard.astro';
+import Icon from '../components/ui/Icon.astro';
+import UnidadeCard from '../components/ui/UnidadeCard.astro';
+import Depoimentos from '../components/sections/Depoimentos.astro';
+import Diferenciais from '../components/sections/Diferenciais.astro';
+import Marcas from '../components/sections/Marcas.astro';
+import { aboutPageSchema, breadcrumbSchema, organizationSchema } from '../lib/schema';
+import { linkWhatsApp } from '../lib/format';
+
+const pagina = await getEntry('paginas', 'sobre');
+if (!pagina) {
+	throw new Error('A collection paginas não tem o item sobre.');
+}
+
+const site = await getEntry('site', 'geral');
+if (!site) {
+	throw new Error('A collection site não tem o item geral.');
+}
+
+const { data } = pagina;
+const corpo = pagina.body?.trim() ?? '';
+const Conteudo = corpo ? (await render(pagina)).Content : undefined;
+
+const tituloSeo = data.seoTitle ?? 'Sobre Nós | Depósito José Maria Filho — Poá e Suzano';
+const descricao =
+	data.seoDescription ??
+	'Há mais de 23 anos e 3 lojas em Poá e Suzano: materiais básicos, ferragens, elétrica, hidráulica, pisos, tintas, gabinetes, banheiro e iluminação.';
+
+const unidades = [...(await getCollection('unidades'))].sort((a, b) => a.data.ordem - b.data.ordem);
+const categorias = [...(await getCollection('categorias'))].sort((a, b) => a.data.ordem - b.data.ordem);
+const origem = Astro.site ?? new URL('https://depositojosemariafilho.com.br');
+const migalhas = [
+	{ nome: 'Início', url: '/' },
+	{ nome: 'Sobre', url: '/sobre/' },
+];
+const whatsapp = linkWhatsApp(site.data.whatsapp, 'Olá, vim pela página Sobre do site.');
+const jsonLd = [
+	await organizationSchema(site, { fundacao: data.fundacao, fundador: data.fundador }),
+	breadcrumbSchema(
+		migalhas.map((item) => ({
+			nome: item.nome,
+			url: new URL(item.url, origem).href,
+		})),
+	),
+	aboutPageSchema({
+		titulo: data.titulo,
+		descricao,
+		url: new URL('/sobre/', origem).href,
+	}),
+];
+---
+
+<BaseLayout title={tituloSeo} description={descricao} noindex={!data.indexar} jsonLd={jsonLd}>
+	<article class="pagina">
+		<div class="intro">
+			<div class="container">
+				<Breadcrumb itens={migalhas} jsonLd={false} />
+				<header>
+					<h1>{data.titulo}</h1>
+					<p class="selo">{site.data.selo}</p>
+				</header>
+			</div>
+		</div>
+
+		{
+			Conteudo && (
+				<section class="historia" aria-labelledby="historia-titulo">
+					<div class="container estreito">
+						<h2 id="historia-titulo">Nossa história</h2>
+						<div class="texto">
+							<Conteudo />
+						</div>
+					</div>
+				</section>
+			)
+		}
+
+		<Diferenciais />
+
+		<section class="lojas" aria-labelledby="lojas-titulo">
+			<div class="container">
+				<h2 id="lojas-titulo">Nossas <span>lojas</span></h2>
+				<ul class="lojas-grid">
+					{unidades.map((unidade) => <UnidadeCard unidade={unidade} site={site} nivel="h3" />)}
+				</ul>
+			</div>
+		</section>
+
+		<section class="encontra" aria-labelledby="encontra-titulo">
+			<div class="container">
+				<h2 id="encontra-titulo">O que você <span>encontra</span></h2>
+				<ul class="categorias-grid">
+					{categorias.map((categoria) => <CategoriaCard categoria={categoria} nivel="h3" compacto />)}
+				</ul>
+			</div>
+		</section>
+
+		<Marcas titulo="Marcas parceiras" destaque="parceiras" />
+
+		<Depoimentos limite={3} estatico titulo="O que dizem nossos clientes" destaque="clientes" />
+
+		<div class="cta">
+			<a class="btn-whatsapp" href={whatsapp} target="_blank" rel="noopener">
+				<Icon nome="whatsapp" tamanho={20} />
+				{site.data.ctaWhatsapp}
+			</a>
+		</div>
+	</article>
+</BaseLayout>
+
+<style>
+	.pagina {
+		background: var(--color-white);
+		color: var(--color-ink);
+	}
+
+	.container {
+		max-width: var(--container-page);
+		margin: 0 auto;
+		padding: 0 var(--spacing-container-x);
+	}
+
+	.estreito {
+		max-width: 760px;
+	}
+
+	.intro {
+		padding: var(--spacing-section) 0 8px;
+	}
+
+	header {
+		text-align: center;
+	}
+
+	h1,
+	h2 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-weight: var(--font-weight-extrabold);
+		line-height: var(--leading-heading);
+	}
+
+	h1 {
+		margin-bottom: 16px;
+		font-size: var(--text-section-title);
+	}
+
+	h2 {
+		margin-bottom: var(--spacing-title);
+		font-size: var(--text-section-title);
+		text-align: center;
+	}
+
+	h2 span {
+		color: var(--color-brand);
+	}
+
+	.selo {
+		display: inline-block;
+		margin: 0;
+		padding: 6px 18px;
+		border: 1px solid var(--color-hero-badge-border);
+		border-radius: var(--radius-pill);
+		background: var(--color-hero-badge);
+		color: var(--color-white);
+		font-size: var(--text-hero-badge);
+		font-weight: var(--font-weight-label);
+		letter-spacing: var(--tracking-hero-badge);
+		backdrop-filter: blur(8px);
+	}
+
+	.intro header {
+		padding: 28px var(--spacing-container-x);
+		border-radius: var(--radius-card);
+		background: linear-gradient(135deg, var(--color-hero-overlay-start) 0%, var(--color-hero-overlay-end) 100%);
+	}
+
+	.intro h1 {
+		color: var(--color-white);
+	}
+
+	.historia {
+		padding: var(--spacing-section) 0 0;
+	}
+
+	.historia h2 {
+		color: var(--color-ink);
+		text-align: left;
+	}
+
+	.texto :global(p),
+	.texto :global(li) {
+		font-size: 1rem;
+		line-height: 1.7;
+	}
+
+	.texto :global(p) {
+		margin: 0 0 12px;
+	}
+
+	.texto :global(ul) {
+		margin: 0 0 12px;
+		padding-left: 1.2rem;
+	}
+
+	.lojas {
+		background: var(--color-ink);
+		color: var(--color-white);
+		padding: var(--spacing-section) 0;
+	}
+
+	.lojas h2 {
+		color: var(--color-white);
+	}
+
+	.lojas-grid,
+	.categorias-grid {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.lojas-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--spacing-units-gap);
+		max-width: var(--container-units);
+		margin: 0 auto;
+	}
+
+	.encontra {
+		padding: var(--spacing-section) 0;
+	}
+
+	.categorias-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--spacing-products-gap-compact);
+	}
+
+	.cta {
+		display: flex;
+		justify-content: center;
+		padding: 0 0 var(--spacing-section);
+	}
+
+	.btn-whatsapp {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		width: 100%;
+		max-width: 320px;
+		margin: 0 var(--spacing-container-x);
+		padding: 12px 18px;
+		border-radius: var(--radius-pill);
+		background: var(--color-whatsapp);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: var(--text-offers-cta-compact);
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+		transition: all var(--default-transition-duration) var(--ease-brand);
+	}
+
+	.btn-whatsapp:hover {
+		background: var(--color-whatsapp-dark);
+		transform: translateY(-2px);
+	}
+
+	@media (min-width: 501px) {
+		.categorias-grid {
+			gap: var(--spacing-products-gap);
+		}
+	}
+
+	@media (min-width: 701px) {
+		.btn-whatsapp {
+			width: auto;
+			max-width: none;
+			margin: 0;
+			padding: 13px 26px;
+			font-size: var(--text-btn);
+		}
+	}
+
+	@media (min-width: 901px) {
+		.lojas-grid,
+		.categorias-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			max-width: none;
+		}
+	}
+</style>

@@ -5,13 +5,14 @@ import type { CollectionEntry } from 'astro:content';
 interface Props {
 	categoria: CollectionEntry<'categorias'>;
 	nivel?: 'h2' | 'h3';
+	compacto?: boolean;
 }
 
-const { categoria, nivel = 'h3' } = Astro.props;
+const { categoria, nivel = 'h3', compacto = false } = Astro.props;
 const Titulo = nivel;
 ---
 
-<li class="produto-card">
+<li class:list={['produto-card', { compacto }]}>
 	<div class="produto-header">
 		<div class="produto-icon">
 			<Image
@@ -154,44 +155,44 @@ const Titulo = nivel;
 	}
 
 	@media (min-width: 501px) {
-		.produto-header {
+		.produto-card:not(.compacto) .produto-header {
 			gap: 14px;
 			padding: var(--spacing-product-header-top) var(--spacing-product-header-x)
 				var(--spacing-product-header-bottom);
 		}
 
-		.produto-icon {
+		.produto-card:not(.compacto) .produto-icon {
 			width: 88px;
 			height: 88px;
 			padding: 16px;
 			border-radius: var(--radius-product-icon);
 		}
 
-		.produto-nome {
+		.produto-card:not(.compacto) .produto-nome {
 			font-size: var(--text-product-title);
 		}
 
-		.produto-body {
+		.produto-card:not(.compacto) .produto-body {
 			padding: var(--spacing-product-body-y) var(--spacing-product-body-x);
 		}
 
-		.produto-items {
+		.produto-card:not(.compacto) .produto-items {
 			font-size: var(--text-product-item);
 		}
 
-		.produto-items li {
+		.produto-card:not(.compacto) .produto-items li {
 			align-items: center;
 			gap: 6px;
 			line-height: inherit;
 		}
 
-		.produto-items li::before {
+		.produto-card:not(.compacto) .produto-items li::before {
 			width: 6px;
 			height: 6px;
 			margin-top: 0;
 		}
 
-		.produto-badge {
+		.produto-card:not(.compacto) .produto-badge {
 			padding: 4px 10px;
 			font-size: var(--text-product-badge);
 		}

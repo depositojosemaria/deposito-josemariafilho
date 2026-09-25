@@ -8,9 +8,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 const raiz = path.dirname(fileURLToPath(import.meta.url));
 
-function categoriasOcultasNoSitemap() {
-  const dir = path.join(raiz, 'src/content/categorias');
-  const urls = fs
+function urlsOcultasNoSitemap(dir, urlDe) {
+  return fs
     .readdirSync(dir)
     .filter((nome) => nome.endsWith('.md'))
     .filter((nome) => {
@@ -19,11 +18,19 @@ function categoriasOcultasNoSitemap() {
       const bloco = frente?.[1] ?? '';
       return !/^indexar:\s*true\s*$/m.test(bloco);
     })
-    .map((nome) => `https://depositojosemariafilho.com.br/produtos/${nome.slice(0, -3)}/`);
-  return new Set(urls);
+    .map((nome) => urlDe(nome.slice(0, -3)));
 }
 
-const categoriasOcultas = categoriasOcultasNoSitemap();
+const ocultasNoSitemap = new Set([
+  ...urlsOcultasNoSitemap(
+    path.join(raiz, 'src/content/categorias'),
+    (id) => `https://depositojosemariafilho.com.br/produtos/${id}/`,
+  ),
+  ...urlsOcultasNoSitemap(
+    path.join(raiz, 'src/content/paginas'),
+    (id) => `https://depositojosemariafilho.com.br/${id}/`,
+  ),
+]);
 
 // https://astro.build/config
 export default defineConfig({
@@ -37,7 +44,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter(pagina) {
-        return !categoriasOcultas.has(pagina);
+        return !ocultasNoSitemap.has(pagina);
       },
     }),
   ],
