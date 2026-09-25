@@ -5,6 +5,7 @@ export interface ItemNavegacao {
 
 export const navegacao: ItemNavegacao[] = [
 	{ rotulo: 'Início', href: '/' },
+	{ rotulo: 'Sobre', href: '/sobre/' },
 	{ rotulo: 'Produtos', href: '/produtos/' },
 	{ rotulo: 'Ofertas', href: '/#ofertas' },
 	{ rotulo: 'Unidades', href: '/unidades/' },
