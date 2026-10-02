@@ -59,7 +59,11 @@ if (!fs.existsSync(raiz)) {
 	process.exit(1);
 }
 
-const paginas = listar(raiz, (arquivo) => arquivo.endsWith('.html'));
+const paginas = listar(raiz, (arquivo) => {
+	// ignorar HTML dentro de dist/admin/
+	if (arquivo.includes(path.join(raiz, 'admin' + path.sep))) return false;
+	return arquivo.endsWith('.html');
+});
 const sitemap = new Set();
 for (const arquivo of listar(raiz, (item) => /sitemap-\d+\.xml$/.test(item))) {
 	const xml = fs.readFileSync(arquivo, 'utf8');

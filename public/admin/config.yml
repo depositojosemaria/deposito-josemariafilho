@@ -1,0 +1,26 @@
+backend:
+  name: github
+  repo: "depositojosemaria/deposito-josemariafilho"
+  branch: "main"
+locale: "pt"
+media_folder: "src/assets/ofertas"
+public_folder: "../../assets/ofertas"
+collections:
+  - name: "ofertas"
+    label: "Ofertas do Mês"
+    folder: "src/content/ofertas"
+    format: "json"
+    create: true
+    delete: true
+    identifier_field: "alt"
+    slug: "{{year}}-{{month}}-{{slug}}"
+    fields:
+      - { name: "imagem", label: "Encarte", widget: "image", required: true }
+      - { name: "alt", label: "Descrição do encarte", widget: "string", required: true, hint: "Ex.: Encarte com cimentos, pisos e ferramentas. Não escreva preços." }
+      - { name: "ordem", label: "Ordem de exibição", widget: "number" }
+      - { name: "validade", label: "Válido até", widget: "datetime", required: false, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { name: "ativo", label: "Exibir no site", widget: "boolean", default: true }
+media_library:
+  config:
+    max_file_size: 10485760
+    allow: ["image/jpeg", "image/jpg", "image/png", "image/webp"]
