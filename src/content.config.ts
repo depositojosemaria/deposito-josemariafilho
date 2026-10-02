@@ -109,12 +109,17 @@ const ofertas = defineCollection({
 	loader: glob({ pattern: '*.json', base: 'src/content/ofertas' }),
 	schema: ({ image }) =>
 		z.object({
-			id: z.string(),
+			// id may be absent for entries created by the CMS
+			id: z.string().optional(),
+			// imagem is an asset path relative to the JSON file
 			imagem: image(),
 			alt: z.string(),
-			ordem: z.number().int(),
+			// ordem optional, default 99
+			ordem: z.number().int().optional().default(99),
+			// validade optional; CMS may write "YYYY-MM-DD" or a datetime string
 			validade: z.string().optional(),
-			ativo: z.boolean().default(true),
+			// ativo optional, default true
+			ativo: z.boolean().optional().default(true),
 		}),
 });
 
