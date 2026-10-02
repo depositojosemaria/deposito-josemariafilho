@@ -13,7 +13,13 @@ if (!site) {
 const todasOfertas = [...(await getCollection('ofertas'))];
 const hoje = new Date();
 function toDateOnly(str) {
-	return str ? new Date(str + 'T00:00:00') : null;
+	// treat empty string or missing as no validade
+	if (!str) return null;
+	const s = String(str).trim();
+	if (!s) return null;
+	// accept "YYYY-MM-DD" or ISO datetime; use only date portion
+	const datePart = s.split('T')[0];
+	return new Date(datePart + 'T00:00:00');
 }
 const ofertas = todasOfertas
 	.filter((o) => {

@@ -6,6 +6,11 @@ locale: "pt"
 # Global media folders (satisfy Sveltia validation; collection overrides below)
 media_folder: "src/assets/images"
 public_folder: "/src/assets/images"
+media_libraries:
+  default:
+    config:
+      # Rename uploaded files to slugified filenames: lowercase, hyphens, no accents, no parentheses
+      slugify_filename: true
 collections:
   - name: "ofertas"
     label: "Ofertas do Mês"
