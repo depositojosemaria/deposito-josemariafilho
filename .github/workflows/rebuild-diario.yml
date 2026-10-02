@@ -1,0 +1,20 @@
+name: Rebuild diário
+
+on:
+  schedule:
+    # 09:00 UTC = 06:00 Brasilia (UTC-3)
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "VERCEL_DEPLOY_HOOK not set"; exit 1
+          fi
+          curl -sS -X POST "$HOOK"
