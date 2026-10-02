@@ -28,7 +28,7 @@ const total = banners.length;
 								width={banner.data.imagem.width}
 								height={banner.data.imagem.height}
 								quality="mid"
-								loading={indice === 0 ? 'eager' : 'lazy'}
+								loading="lazy"
 								decoding="async"
 							/>
 						</a>
@@ -42,7 +42,7 @@ const total = banners.length;
 							width={banner.data.imagem.width}
 							height={banner.data.imagem.height}
 							quality="mid"
-							loading={indice === 0 ? 'eager' : 'lazy'}
+							loading="lazy"
 							decoding="async"
 						/>
 					)}
