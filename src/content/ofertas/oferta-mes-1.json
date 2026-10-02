@@ -1,0 +1,7 @@
+{
+  "id": "oferta-mes-1",
+  "imagem": "../../assets/ofertas/oferta-mes-1.svg",
+  "alt": "Encarte de ofertas do mês com churrasqueiras, tinta acrílica e argamassa",
+  "ordem": 1,
+  "ativo": true
+}

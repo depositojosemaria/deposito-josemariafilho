@@ -10,7 +10,21 @@ if (!site) {
 	throw new Error('A collection site não tem o item geral.');
 }
 
-const ofertas = [...(await getCollection('ofertas'))].sort((a, b) => a.data.ordem - b.data.ordem);
+const todasOfertas = [...(await getCollection('ofertas'))];
+const hoje = new Date();
+function toDateOnly(str) {
+	return str ? new Date(str + 'T00:00:00') : null;
+}
+const ofertas = todasOfertas
+	.filter((o) => {
+		const ativo = o.data.ativo ?? true;
+		if (!ativo) return false;
+		const validade = toDateOnly(o.data.validade);
+		if (!validade) return true;
+		// incluir se validade >= hoje (data do build)
+		return validade >= new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+	})
+	.sort((a, b) => a.data.ordem - b.data.ordem);
 const mensagem =
 	site.data.mensagemWhatsappOfertas?.trim() ||
 	'Olá, vi as ofertas do mês no site e tenho interesse.';
@@ -23,31 +37,37 @@ const whatsapp = linkWhatsApp(site.data.whatsapp, mensagem);
 			<h2>Ofertas do <span>Mês</span></h2>
 			<p>Confira as promoções especiais — clique na imagem para ampliar</p>
 		</div>
-		<Carrossel label="Ofertas do mês" mobile={2} tablet={2} desktop={3} setas tema="ofertas">
-			{
-				ofertas.map((oferta) => (
-					<button
-						class="oferta-slide"
-						type="button"
-						popovertarget={`oferta-${oferta.id}`}
-						aria-label={`Ampliar encarte de ofertas ${oferta.data.ordem}`}
-					>
-						<Picture
-							src={oferta.data.imagem}
-							formats={['avif', 'webp']}
-							widths={[160, 240, 320, 480]}
-							sizes="(min-width: 1240px) 329px, (min-width: 901px) calc((100vw - 164px) / 3 - 16px), calc(50vw - 72px)"
-							alt={oferta.data.alt}
-							width={oferta.data.imagem.width}
-							height={oferta.data.imagem.height}
-							quality="mid"
-							loading="lazy"
-							decoding="async"
-						/>
-					</button>
-				))
-			}
-		</Carrossel>
+		{ofertas.length ? (
+			<Carrossel label="Ofertas do mês" mobile={2} tablet={2} desktop={3} setas tema="ofertas">
+				{
+					ofertas.map((oferta) => (
+						<button
+							class="oferta-slide"
+							type="button"
+							popovertarget={`oferta-${oferta.id}`}
+							aria-label={`Ampliar encarte de ofertas ${oferta.data.ordem}`}
+						>
+							<Picture
+								src={oferta.data.imagem}
+								formats={['avif', 'webp']}
+								widths={[160, 240, 320, 480]}
+								sizes="(min-width: 1240px) 329px, (min-width: 901px) calc((100vw - 164px) / 3 - 16px), calc(50vw - 72px)"
+								alt={oferta.data.alt}
+								width={oferta.data.imagem.width}
+								height={oferta.data.imagem.height}
+								quality="mid"
+								loading="lazy"
+								decoding="async"
+							/>
+						</button>
+					))
+				}
+			</Carrossel>
+		) : (
+			<div class="sem-ofertas" role="status">
+				<p>Novas ofertas em breve! Fale com a gente pelo WhatsApp para saber as promoções da semana.</p>
+			</div>
+		)}
 		{
 			ofertas.map((oferta) => (
 				<div id={`oferta-${oferta.id}`} class="oferta-popover" popover aria-label={oferta.data.alt}>

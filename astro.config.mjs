@@ -48,6 +48,9 @@ export default defineConfig({
       },
     }),
   ],
+  image: {
+    dangerouslyProcessSVG: true,
+  },
   vite: {
     plugins: [tailwindcss()],
   },

@@ -106,7 +106,7 @@ const banners = defineCollection({
 });
 
 const ofertas = defineCollection({
-	loader: file('src/content/ofertas.json'),
+	loader: glob({ pattern: '*.json', base: 'src/content/ofertas' }),
 	schema: ({ image }) =>
 		z.object({
 			id: z.string(),
@@ -114,6 +114,7 @@ const ofertas = defineCollection({
 			alt: z.string(),
 			ordem: z.number().int(),
 			validade: z.string().optional(),
+			ativo: z.boolean().default(true),
 		}),
 });
 
