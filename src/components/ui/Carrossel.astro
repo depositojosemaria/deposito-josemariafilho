@@ -8,6 +8,7 @@ interface Props {
 	setas?: boolean;
 	indicadores?: boolean;
 	tema?: 'banner' | 'ofertas';
+	total?: number;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
 	setas = false,
 	indicadores = false,
 	tema,
+	total,
 } = Astro.props;
 
 const duracaoCss = /^\d+(\.\d+)?s$/.test(duracao) ? duracao : '45s';
@@ -38,7 +40,7 @@ const slidesDesktop = desktop ?? slidesTablet;
 				setas && 'com-setas',
 				indicadores && 'com-indicadores',
 			]}
-			style={`--slides-mobile: ${slidesMobile}; --slides-tablet: ${slidesTablet}; --slides-desktop: ${slidesDesktop}`}
+			style={`--slides-mobile: ${slidesMobile}; --slides-tablet: ${slidesTablet}; --slides-desktop: ${slidesDesktop}${typeof total === 'number' && total > 0 ? `; --total: ${total}` : ''}`}
 			aria-roledescription="carrossel"
 			aria-label={label}
 		>
@@ -143,12 +145,30 @@ const slidesDesktop = desktop ?? slidesTablet;
 	}
 
 	.snap {
+		--margem-trilho: 0px;
+		--visiveis: var(--slides-mobile);
+		--colunas: min(var(--total, var(--visiveis)), var(--visiveis));
 		position: relative;
 		width: 100%;
 	}
 
+	@media (min-width: 701px) {
+		.snap {
+			--visiveis: var(--slides-tablet);
+		}
+	}
+
+	@media (min-width: 901px) {
+		.snap {
+			--visiveis: var(--slides-desktop);
+		}
+	}
+
+	/* Com menos itens que colunas, o trilho encolhe e fica centralizado */
 	.snap-trilho {
 		display: flex;
+		width: calc((100% - 2 * var(--margem-trilho)) * var(--colunas) / var(--visiveis));
+		margin-inline: auto;
 		overflow-x: auto;
 		scroll-snap-type: x mandatory;
 		scrollbar-width: none;
@@ -159,21 +179,9 @@ const slidesDesktop = desktop ?? slidesTablet;
 	}
 
 	.snap-trilho > :global(*) {
-		flex: 0 0 calc(100% / var(--slides-mobile));
+		flex: 0 0 calc(100% / var(--colunas));
 		min-width: 0;
 		scroll-snap-align: start;
-	}
-
-	@media (min-width: 701px) {
-		.snap-trilho > :global(*) {
-			flex-basis: calc(100% / var(--slides-tablet));
-		}
-	}
-
-	@media (min-width: 901px) {
-		.snap-trilho > :global(*) {
-			flex-basis: calc(100% / var(--slides-desktop));
-		}
 	}
 
 	@supports selector(::scroll-button(left)) {
@@ -253,8 +261,11 @@ const slidesDesktop = desktop ?? slidesTablet;
 		}
 	}
 
+	.tema-ofertas {
+		--margem-trilho: 42px;
+	}
+
 	.tema-ofertas .snap-trilho {
-		margin-inline: 42px;
 		border-radius: var(--radius-card);
 		box-shadow: var(--shadow-card);
 		scroll-behavior: smooth;
@@ -308,8 +319,26 @@ const slidesDesktop = desktop ?? slidesTablet;
 	}
 
 	@media (min-width: 901px) {
+		.tema-ofertas {
+			--margem-trilho: 62px;
+		}
+	}
+
+	/* Sem ::scroll-button (Firefox, Safari) não há setas: a barra de rolagem é a única navegação com mouse */
+	@supports not selector(::scroll-button(left)) {
 		.tema-ofertas .snap-trilho {
-			margin-inline: 62px;
+			padding-bottom: 6px;
+			scrollbar-width: thin;
+		}
+
+		.tema-ofertas .snap-trilho::-webkit-scrollbar {
+			display: block;
+			height: 6px;
+		}
+
+		.tema-ofertas .snap-trilho::-webkit-scrollbar-thumb {
+			border-radius: var(--radius-pill);
+			background: rgba(0, 0, 0, 0.25);
 		}
 	}
 

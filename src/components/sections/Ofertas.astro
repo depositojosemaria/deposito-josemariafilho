@@ -44,7 +44,7 @@ const whatsapp = linkWhatsApp(site.data.whatsapp, mensagem);
 			<p>Confira as promoções especiais — clique na imagem para ampliar</p>
 		</div>
 		{ofertas.length ? (
-			<Carrossel label="Ofertas do mês" mobile={2} tablet={2} desktop={3} setas tema="ofertas">
+			<Carrossel label="Ofertas do mês" mobile={2} tablet={2} desktop={3} setas tema="ofertas" total={ofertas.length}>
 				{
 					ofertas.map((oferta) => (
 						<button
