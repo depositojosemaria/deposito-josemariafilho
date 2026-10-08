@@ -3,9 +3,9 @@ backend:
   repo: "depositojosemaria/deposito-josemariafilho"
   branch: "main"
 locale: "pt"
-# Global media folders (satisfy Sveltia validation; collection overrides below)
-media_folder: "src/assets/images"
-public_folder: "/src/assets/images"
+# Global media folders: ofertas is the only collection with images
+media_folder: "src/assets/ofertas"
+public_folder: "/src/assets/ofertas"
 media_libraries:
   default:
     config:
@@ -20,9 +20,6 @@ collections:
     delete: true
     identifier_field: "alt"
     slug: "{{year}}-{{month}}-{{slug}}"
-    # media folders relative to each collection file (supported by Sveltia similar to Netlify CMS)
-    media_folder: "../../assets/ofertas"
-    public_folder: "../../assets/ofertas"
     fields:
       - { name: "imagem", label: "Encarte", widget: "image", required: true }
       - { name: "alt", label: "Descrição do encarte", widget: "string", required: true, hint: "Ex.: Encarte com cimentos, pisos e ferramentas. Não escreva preços." }
